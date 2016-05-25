@@ -1,0 +1,138 @@
+<html>
+<head>
+	<title>Vokativ</title>
+	<meta charset="utf-8">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+
+<textarea id="input"></textarea>
+
+<textarea id="output" readonly="true"></textarea>
+<textarea id="rules" readonly="true"></textarea>
+
+<script>
+var input = document.getElementById('input');
+var output = document.getElementById('output');
+var rule = document.getElementById('rules');
+
+function rules(inrule) {
+	rule.value += inrule+"\n";
+}
+
+function rename (inname) {
+	var outname = '';
+
+	var lastchar = inname.trim().slice(-1);
+	var namelength = inname.length;
+	switch (lastchar) {
+		// A: koncici na tvrdy konstant (h, ch, k, r, d, t, n)
+		// A.1 koncici na k,g,ch,h => pridame u
+		case "h":
+		case "ch":
+		case "k":
+		case "g": // Urcite?
+			outname = inname+'u';
+			rules("A.1");
+			break;
+		// A.2 a A.3
+		case "r":
+			outname = "NOT IMPLEMENTED"
+			rules("A.2, A.3");
+			break;
+		// A.4 default => pridame e
+		case "n":
+		case "d":
+		case "t":
+			outname = inname+'e';
+			rules("A.4");
+			break;
+		// B
+		// B.1
+		case "\u0161": // š
+		case "\u010D": // č
+			outname = inname+'i';
+			rules("B.1");
+			break;
+		// B.2
+		case "\u017E": // ž
+		case "j": 
+			outname = inname+'i';
+			rules("B.2-ž");
+			break;
+		case "\u010F": // ď
+			outname = inname.substring(0, namelength - 1)+'di';
+			rules("B.2-ď");
+			break;
+		case "\u0165": // ť
+			outname = inname.substring(0, namelength - 1)+'ti';
+			rules("B.2-ť");
+			break;
+		case "\u0148": // ň
+			outname = inname.substring(0, namelength - 1)+'ni';
+			rules("B.2-ň");
+			break;
+		// C zakonceno vokalem a, e, i, y, o, u
+		case "a":
+			outname = inname.substring(0, namelength - 1)+'o';
+			rules("C");
+			break;
+		case "\x00E1": // á
+		case "e":
+		case "\u00E9": // é
+		case "i":
+		case "\u00ED": // í
+		case "y":
+		case "\u00FD": // ý
+		case "o":
+		case "\u00F3": // ó
+		case "u":
+		case "\u00FA": // ú
+		case "\u016F": // ů
+			outname = inname;
+			rules("C");
+			break;
+		default:
+			outname = inname+'e';
+			rules("default");
+	}
+
+	return outname;
+}
+
+function process () {
+	var rawnames = input.value;
+
+	var innames = rawnames.split("\n");
+	output.value = "";
+	rule.value = "";
+
+	input.rows = innames.length + 1;
+	output.rows = innames.length + 1;
+	rule.rows = innames.length + 1;
+	
+	for (var index = 0; index < innames.length; index++) {
+		inname = innames[index];
+		output.value += rename(inname);
+		output.value += "\n";
+	}
+
+}
+
+if (input.addEventListener) {
+	input.addEventListener('input', function() {
+    		// event handling code for sane browsers
+		process();
+  	}, false);
+} else if (input.attachEvent) {
+  	input.attachEvent('onpropertychange', function() {
+    		// IE-specific event handling code
+		process();
+  	});
+}
+</script>
+
+</body>
+</html>
