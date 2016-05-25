@@ -13,10 +13,43 @@
 <textarea id="output" readonly="true"></textarea>
 <textarea id="rules" readonly="true"></textarea>
 
+<br/>
+
+<input type="button" value="test" onclick="test();">
+
+<textarea id="totest" style="display: none;">
+Kazda
+Kališ
+Novák
+Ženíšek
+Němec
+Vintr
+Petr
+Jágr
+Kryl
+Mann
+Wagner
+Brhel
+Soudce
+Blčiště
+Bidlo
+Jiří
+Uhde
+Hrách
+Švec
+Filip
+Bradáč
+Holeň
+Nový
+Kmotr
+Hoboj
+</textarea>
+
 <script>
 var input = document.getElementById('input');
 var output = document.getElementById('output');
 var rule = document.getElementById('rules');
+var totest = document.getElementById('totest');
 
 function rules(inrule) {
 	rule.value += inrule+"\n";
@@ -25,77 +58,93 @@ function rules(inrule) {
 function rename (inname) {
 	var outname = '';
 
-	var lastchar = inname.trim().slice(-1);
+	inname = inname.trim();
+
+	var lastchar = inname.slice(-1);
+	var beforelastchar = inname.slice(-2).charAt(0);
 	var namelength = inname.length;
+	// Diactic converted by http://unicode-table.com/en/
 	switch (lastchar) {
-		// A: koncici na tvrdy konstant (h, ch, k, r, d, t, n)
-		// A.1 koncici na k,g,ch,h => pridame u
-		case "h":
-		case "ch":
-		case "k":
-		case "g": // Urcite?
-			outname = inname+'u';
-			rules("A.1");
+		// 1: -a -> -o
+		case "a":
+			outname = inname.substring(0, namelength - 1)+'o';
+			rules("1.");
 			break;
-		// A.2 a A.3
-		case "r":
-			outname = "NOT IMPLEMENTED"
-			rules("A.2, A.3");
-			break;
-		// A.4 default => pridame e
-		case "n":
-		case "d":
-		case "t":
-			outname = inname+'e';
-			rules("A.4");
-			break;
-		// B
-		// B.1
+		// 2.a: -ž,š,č,ř -> +i
+		case "\u017E": // ž
 		case "\u0161": // š
 		case "\u010D": // č
+		case "\u0159": // ř
 			outname = inname+'i';
-			rules("B.1");
+			rules("2.a");
 			break;
-		// B.2
-		case "\u017E": // ž
-		case "j": 
-			outname = inname+'i';
-			rules("B.2-ž");
-			break;
+		// 2.b: -ď,ť,ň -> d/t/n+i
 		case "\u010F": // ď
 			outname = inname.substring(0, namelength - 1)+'di';
-			rules("B.2-ď");
+			rules("2.b-ď");
 			break;
 		case "\u0165": // ť
 			outname = inname.substring(0, namelength - 1)+'ti';
-			rules("B.2-ť");
+			rules("2.b-ť");
 			break;
 		case "\u0148": // ň
 			outname = inname.substring(0, namelength - 1)+'ni';
-			rules("B.2-ň");
+			rules("2.b-ň");
 			break;
-		// C zakonceno vokalem a, e, i, y, o, u
-		case "a":
-			outname = inname.substring(0, namelength - 1)+'o';
-			rules("C");
+		// 3.1
+		case "ch":
+		case "h":
+			outname = inname+'u';
+			rules("3.a");
 			break;
-		case "\x00E1": // á
+		// 3.b 
+		case "k":
+			if (beforelastchar == "e") {
+				outname = inname.substring(0, namelength - 2)+'ku';
+				rules("3.b.1");
+			} else {
+				outname = inname+'u';
+				rules("3.b.2");
+			}
+			break;
+		// 4.a
+		case "c":
+			if (beforelastchar == "e") {
+				outname = inname.substring(0, namelength - 2)+'če';
+				rules("4.a.1");
+			} else {
+				outname = inname+'e ('+beforelastchar+')';
+				rules("4.a.2");
+			}
+			break;
+		// 4.b
+		case "r":
+			outname = "NOT IMPLEMENTED";
+			rules("4.b");
+			break;
+		// 5.a
+		case "n":
+		case "r":
+			outname = inname+'e';
+			rules("5.a");
+			break;
+		// 5.b 
+		case "l":
+			if (beforelastchar == "e") {
+				outname = inname.substring(0, namelength - 2)+'le';
+				rules("5.b.1");
+			} else {
+				outname = inname+'e';
+				rules("5.b.2");
+			}
+			break;
+		// 6.
 		case "e":
-		case "\u00E9": // é
-		case "i":
-		case "\u00ED": // í
-		case "y":
-		case "\u00FD": // ý
-		case "o":
-		case "\u00F3": // ó
-		case "u":
-		case "\u00FA": // ú
-		case "\u016F": // ů
 			outname = inname;
-			rules("C");
+			rules("6.");
 			break;
 		default:
-			outname = inname+'e';
+			outname = inname;
 			rules("default");
 	}
 
@@ -103,7 +152,7 @@ function rename (inname) {
 }
 
 function process () {
-	var rawnames = input.value;
+	var rawnames = input.value.trim();
 
 	var innames = rawnames.split("\n");
 	output.value = "";
@@ -131,6 +180,12 @@ if (input.addEventListener) {
     		// IE-specific event handling code
 		process();
   	});
+}
+
+function test() {
+
+	input.value = totest.value;
+	process();
 }
 </script>
 
