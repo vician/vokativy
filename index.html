@@ -109,6 +109,7 @@ function rename (inname) {
 		// 3.1
 		case "ch":
 		case "h":
+		case "g":
 			outname = inname+'u';
 			rules("3a");
 			break;
@@ -229,7 +230,7 @@ function test() {
 			<li id="li2a">-ž,š,č,ř -> +i</li>
 			<li id="li2b">-ď,ť,ň -> d/t/n+i</li>
 		</ol>
-	<li id="li3">-k,h,ch</li>
+	<li id="li3">-k,h,ch,g</li>
 		<ol style="list-style-type: lower-alpha">
 			<li id="li3a">-> +u</li>
 			<li id="li3b">-ek -> -ku</li>
@@ -259,6 +260,15 @@ function test() {
 	<li id="li6">-e -> -e</li>
 	<li id="li7">Jinak nemenit</li>
 </ul>
+
+<h2>Chyby</h2>
+<textarea>
+vilem
+rozum
+Kraus
+Raffaj
+demidov
+</textarea>
 
 </body>
 </html>
