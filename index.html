@@ -61,6 +61,9 @@ var totest = document.getElementById('totest');
 
 function rules(inrule) {
 	rule.value += inrule+"\n";
+
+	cleancss();
+
 	var liid = inrule.split("-");
 	liid = liid[0];
 	console.log("id: "+liid);
@@ -151,7 +154,7 @@ function rename (inname) {
 				rules("5b1");
 			} else {
 				outname = inname+'e';
-				rules("5.b.2");
+				rules("5b2");
 			}
 			break;
 		// 6.
@@ -167,6 +170,14 @@ function rename (inname) {
 	return outname;
 }
 
+function cleancss() {
+	var elems = document.body.getElementsByTagName("li");
+	for (var index = 0; index < elems.length; index ++) {
+		var elem = elems[index];
+		elem.className = '';
+	}
+}
+
 function process () {
 	var rawnames = input.value.trim();
 
@@ -178,12 +189,9 @@ function process () {
 	output.rows = innames.length + 1;
 	rule.rows = innames.length + 1;
 
-	var elems = document.body.getElementsByTagName("li");
-	for (var index = 0; index < elems.length; index ++) {
-		var elem = elems[index];
-		elem.className = '';
-	}
 	
+	cleancss();
+
 	for (var index = 0; index < innames.length; index++) {
 		inname = innames[index];
 		output.value += rename(inname);
@@ -208,6 +216,7 @@ function test() {
 
 	input.value = totest.value;
 	process();
+	cleancss();
 }
 </script>
 
@@ -224,16 +233,28 @@ function test() {
 		<ol style="list-style-type: lower-alpha">
 			<li id="li3a">-> +u</li>
 			<li id="li3b">-ek -> -ku</li>
+				<ol>
+					<li id="li3b1">-ek -> -ku</li>
+					<li id="li3b2">-ek -> -eku (jednoslabicne)</li>
+				</ol>
 		</ol>
 	<li id="li4">-ec,(C)r -> e</li>
 		<ol style="list-style-type: lower-alpha">
 			<li id="li4a">-ec -> -če</li>
+				<ol>
+					<li id="li4a1">-ec -> -če</li>
+					<li id="li4a2">-ec -> -ece (jednoslabicne)</li>
+				</ol>
 			<li id="li4b">(C)r -> (C)ře</li>
 		</ol>
 	<li id="li5">-l,n,r,t,p,b,d</li>
 		<ol style="list-style-type: lower-alpha">
 			<li id="li5a">-> +e</li>
 			<li id="li5b">-el -> -le</li>
+				<ol>
+					<li id="li5b1">-el -> -le</li>
+					<li id="li5b2">-ec -> -ele (jednoslabicne)</li>
+				</ol>
 		</ol>
 	<li id="li6">-e -> -e</li>
 	<li id="li7">Jinak nemenit</li>
