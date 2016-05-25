@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<style>
 		li.highlighted {background: yellow;}
+		#footer {border-top: 1px solid gray; color: gray;margin-top: 1em;}
 	</style>
 </head>
 <body>
@@ -16,7 +17,7 @@
 <textarea id="input"></textarea>
 
 <textarea id="output" readonly="true"></textarea>
-<textarea id="rules" readonly="true"></textarea>
+<textarea id="rules" readonly="true" cols="4"></textarea>
 
 <br/>
 
@@ -90,6 +91,8 @@ function rename (inname) {
 		case "\u0161": // š
 		case "\u010D": // č
 		case "\u0159": // ř
+		case "s":
+		case "j":
 			outname = inname+'i';
 			rules("2a");
 			break;
@@ -135,8 +138,13 @@ function rename (inname) {
 			break;
 		// 4.b
 		case "r":
-			outname = "NOT IMPLEMENTED";
-			rules("4b-not-implemented");
+			if(isvocal(beforelastchar)) {
+				outname = inname+'e';
+				rules("4b");
+			} else {
+				outname = inname.substring(0, namelength - 1)+'ře';	
+				rules("4c");
+			}
 			break;
 		// 5.a
 		case "n":
@@ -145,6 +153,9 @@ function rename (inname) {
 		case "p":
 		case "b":
 		case "d":
+		case "v":
+		case "m":
+		case "f":
 			outname = inname+'e';
 			rules("5a");
 			break;
@@ -219,21 +230,34 @@ function test() {
 	process();
 	cleancss();
 }
+
+function iscononant(char) {
+	if (isvocal(char) == true) return false;
+	else return true;
+}
+
+function isvocal(char) {
+
+	var vocals = Array("a","e","i","y","o","u","á","é","í","ý","ó","ů","ú");
+
+	if (vocals.indexOf(char) == -1) return false;
+	else return true;
+}
 </script>
 
 <h2>Pravidla</h2>
 
 <ol>
 	<li id="li1">-a -> -o</li>
-	<li id="li2">-ž,š,č,ř,ď,ť,ň</li>
+	<li id="li2">-ž,š,č,ř,ď,ť,ň,s,j</li>
 		<ol style="list-style-type: lower-alpha">
-			<li id="li2a">-ž,š,č,ř -> +i</li>
+			<li id="li2a">-> +i</li>
 			<li id="li2b">-ď,ť,ň -> d/t/n+i</li>
 		</ol>
 	<li id="li3">-k,h,ch,g</li>
 		<ol style="list-style-type: lower-alpha">
 			<li id="li3a">-> +u</li>
-			<li id="li3b">-ek -> -ku</li>
+			<li id="li3b">-k</li>
 				<ol>
 					<li id="li3b1">-ek -> -ku</li>
 					<li id="li3b2">-ek -> -eku (jednoslabicne)</li>
@@ -246,29 +270,43 @@ function test() {
 					<li id="li4a1">-ec -> -če</li>
 					<li id="li4a2">-ec -> -ece (jednoslabicne)</li>
 				</ol>
-			<li id="li4b">(C)r -> (C)ře</li>
+			<li id="li4b">(V)r -> (V)re</li>
+			<li id="li4c">(C)r -> (C)ře</li>
 		</ol>
-	<li id="li5">-l,n,r,t,p,b,d</li>
+	<li id="li5">-l,n,r,t,p,b,d,v,m,f</li>
 		<ol style="list-style-type: lower-alpha">
 			<li id="li5a">-> +e</li>
 			<li id="li5b">-el -> -le</li>
 				<ol>
 					<li id="li5b1">-el -> -le</li>
-					<li id="li5b2">-ec -> -ele (jednoslabicne)</li>
+					<li id="li5b2">-el -> -ele (jednoslabicne)</li>
 				</ol>
 		</ol>
 	<li id="li6">-e -> -e</li>
 	<li id="li7">Jinak nemenit</li>
-</ul>
+</ol>
+
+<h3>Návrhy</h3>
+
+<ol>
+	<li>tel -> teli </li>
+	<li>(V)el -> (V)eli</li>
+</ol>
 
 <h2>Chyby</h2>
-<textarea>
-vilem
-rozum
-Kraus
-Raffaj
-demidov
+<textarea rows="10">
+Daniel
+Kos
+Vítr
+Učitel
+Pes
+Anděl
+Král
 </textarea>
+
+<div id="footer">
+&copy; Lucie Taraldson Medová, Klára Zapletalová, Martin Vicián
+</div>
 
 </body>
 </html>
