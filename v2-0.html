@@ -1,0 +1,312 @@
+<html>
+<head>
+	<title>Vokativ</title>
+	<meta charset="utf-8">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<style>
+		li.highlighted {background: yellow;}
+		#footer {border-top: 1px solid gray; color: gray;margin-top: 1em;}
+	</style>
+</head>
+<body>
+
+<h1>Vokativ</h1>
+
+<textarea id="input"></textarea>
+
+<textarea id="output" readonly="true"></textarea>
+<textarea id="rules" readonly="true" cols="4"></textarea>
+
+<br/>
+
+<input type="button" value="test" onclick="test();">
+
+<textarea id="totest" style="display: none;">
+Kazda
+Kališ
+Novák
+Ženíšek
+Němec
+Vintr
+Petr
+Jágr
+Kryl
+Mann
+Wagner
+Brhel
+Soudce
+Blčiště
+Bidlo
+Jiří
+Uhde
+Hrách
+Švec
+Filip
+Bradáč
+Holeň
+Nový
+Kmotr
+Hoboj
+Hek
+Flek
+Olek
+</textarea>
+
+<script>
+var input = document.getElementById('input');
+var output = document.getElementById('output');
+var rule = document.getElementById('rules');
+var totest = document.getElementById('totest');
+
+function rules(inrule) {
+	rule.value += inrule+"\n";
+
+	cleancss();
+
+	var liid = inrule.split("-");
+	liid = liid[0];
+	console.log("id: "+liid);
+	document.getElementById("li"+liid).className = "highlighted";
+}
+
+function rename (inname) {
+	var outname = '';
+
+	inname = inname.trim();
+
+	var lastchar = inname.slice(-1);
+	var beforelastchar = inname.slice(-2).charAt(0);
+	var namelength = inname.length;
+	// Diactic converted by http://unicode-table.com/en/
+	switch (lastchar) {
+		// 1: -a -> -o
+		case "a":
+			outname = inname.substring(0, namelength - 1)+'o';
+			rules("1");
+			break;
+		// 2.a: -ž,š,č,ř -> +i
+		case "\u017E": // ž
+		case "\u0161": // š
+		case "\u010D": // č
+		case "\u0159": // ř
+		case "s":
+		case "j":
+			outname = inname+'i';
+			rules("2a");
+			break;
+		// 2.b: -ď,ť,ň -> d/t/n+i
+		case "\u010F": // ď
+			outname = inname.substring(0, namelength - 1)+'di';
+			rules("2b");
+			break;
+		case "\u0165": // ť
+			outname = inname.substring(0, namelength - 1)+'ti';
+			rules("2b");
+			break;
+		case "\u0148": // ň
+			outname = inname.substring(0, namelength - 1)+'ni';
+			rules("2b");
+			break;
+		// 3.1
+		case "ch":
+		case "h":
+		case "g":
+			outname = inname+'u';
+			rules("3a");
+			break;
+		// 3.b 
+		case "k":
+			if (beforelastchar == "e" && namelength > 4) {
+				outname = inname.substring(0, namelength - 2)+'ku';
+				rules("3b1");
+			} else {
+				outname = inname+'u';
+				rules("3b2");
+			}
+			break;
+		// 4.a
+		case "c":
+			if (beforelastchar == "e" && namelength > 4) {
+				outname = inname.substring(0, namelength - 2)+'če';
+				rules("4a1");
+			} else {
+				outname = inname+'e';
+				rules("4a2");
+			}
+			break;
+		// 4.b
+		case "r":
+			if(isvocal(beforelastchar)) {
+				outname = inname+'e';
+				rules("4b");
+			} else {
+				outname = inname.substring(0, namelength - 1)+'ře';	
+				rules("4c");
+			}
+			break;
+		// 5.a
+		case "n":
+		case "r":
+		case "t":
+		case "p":
+		case "b":
+		case "d":
+		case "v":
+		case "m":
+		case "f":
+			outname = inname+'e';
+			rules("5a");
+			break;
+		// 5.b 
+		case "l":
+			if (beforelastchar == "e" && namelength > 4) {
+				outname = inname.substring(0, namelength - 2)+'le';
+				rules("5b1");
+			} else {
+				outname = inname+'e';
+				rules("5b2");
+			}
+			break;
+		// 6.
+		case "e":
+			outname = inname;
+			rules("6");
+			break;
+		default:
+			outname = inname;
+			rules("7-default");
+	}
+
+	return outname;
+}
+
+function cleancss() {
+	var elems = document.body.getElementsByTagName("li");
+	for (var index = 0; index < elems.length; index ++) {
+		var elem = elems[index];
+		elem.className = '';
+	}
+}
+
+function process () {
+	var rawnames = input.value.trim();
+
+	var innames = rawnames.split("\n");
+	output.value = "";
+	rule.value = "";
+
+	input.rows = innames.length + 1;
+	output.rows = innames.length + 1;
+	rule.rows = innames.length + 1;
+
+	
+	cleancss();
+
+	for (var index = 0; index < innames.length; index++) {
+		inname = innames[index];
+		output.value += rename(inname);
+		output.value += "\n";
+	}
+
+}
+
+if (input.addEventListener) {
+	input.addEventListener('input', function() {
+    		// event handling code for sane browsers
+		process();
+  	}, false);
+} else if (input.attachEvent) {
+  	input.attachEvent('onpropertychange', function() {
+    		// IE-specific event handling code
+		process();
+  	});
+}
+
+function test() {
+
+	input.value = totest.value;
+	process();
+	cleancss();
+}
+
+function iscononant(char) {
+	if (isvocal(char) == true) return false;
+	else return true;
+}
+
+function isvocal(char) {
+
+	var vocals = Array("a","e","i","y","o","u","á","é","í","ý","ó","ů","ú");
+
+	if (vocals.indexOf(char) == -1) return false;
+	else return true;
+}
+</script>
+
+<h2>Pravidla</h2>
+
+<ol>
+	<li id="li1">-a -> -o</li>
+	<li id="li2">-ž,š,č,ř,ď,ť,ň,s,j</li>
+		<ol style="list-style-type: lower-alpha">
+			<li id="li2a">-> +i</li>
+			<li id="li2b">-ď,ť,ň -> d/t/n+i</li>
+		</ol>
+	<li id="li3">-k,h,ch,g</li>
+		<ol style="list-style-type: lower-alpha">
+			<li id="li3a">-> +u</li>
+			<li id="li3b">-k</li>
+				<ol>
+					<li id="li3b1">-ek -> -ku</li>
+					<li id="li3b2">-ek -> -eku (jednoslabicne)</li>
+				</ol>
+		</ol>
+	<li id="li4">-ec,(C)r -> e</li>
+		<ol style="list-style-type: lower-alpha">
+			<li id="li4a">-ec -> -če</li>
+				<ol>
+					<li id="li4a1">-ec -> -če</li>
+					<li id="li4a2">-ec -> -ece (jednoslabicne)</li>
+				</ol>
+			<li id="li4b">(V)r -> (V)re</li>
+			<li id="li4c">(C)r -> (C)ře</li>
+		</ol>
+	<li id="li5">-l,n,r,t,p,b,d,v,m,f</li>
+		<ol style="list-style-type: lower-alpha">
+			<li id="li5a">-> +e</li>
+			<li id="li5b">-el -> -le</li>
+				<ol>
+					<li id="li5b1">-el -> -le</li>
+					<li id="li5b2">-el -> -ele (jednoslabicne)</li>
+				</ol>
+		</ol>
+	<li id="li6">-e -> -e</li>
+	<li id="li7">Jinak nemenit</li>
+</ol>
+
+<h3>Návrhy</h3>
+
+<ol>
+	<li>tel -> teli </li>
+	<li>(V)el -> (V)eli</li>
+</ol>
+
+<h2>Chyby</h2>
+<textarea rows="10">
+Daniel
+Kos
+Vítr
+Učitel
+Pes
+Anděl
+Král
+</textarea>
+
+<div id="footer">
+&copy; Lucie Taraldson Medová, Klára Zapletalová, Martin Vicián
+</div>
+
+</body>
+</html>
