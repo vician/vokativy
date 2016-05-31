@@ -23,37 +23,6 @@
 
 <input type="button" value="test" onclick="test();">
 
-<textarea id="totest" style="display: none;">
-Kazda
-Kališ
-Novák
-Ženíšek
-Němec
-Vintr
-Petr
-Jágr
-Kryl
-Mann
-Wagner
-Brhel
-Soudce
-Blčiště
-Bidlo
-Jiří
-Uhde
-Hrách
-Švec
-Filip
-Bradáč
-Holeň
-Nový
-Kmotr
-Hoboj
-Hek
-Flek
-Olek
-</textarea>
-
 <script>
 var input = document.getElementById('input');
 var output = document.getElementById('output');
@@ -62,6 +31,32 @@ var totest = document.getElementById('totest');
 
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function rules(string, rule) {
+
+		
+		switch (rule) {
+			case "1":
+				// -? -> -o
+				return string.substring(0, namelength - 1)+'o';
+				break;
+			case "2":
+				// -? -> -?i
+				beforelastchar = string.slice(-2).charAt(0);
+				// ď/ť/ň -> d/t/n+i
+				if (beforelastchar == "\u010F") // ď
+					return string.substring(0, namelength - 1)+'di';
+				eliif (beforelastchar == "\u0165") // ť
+					return string.substring(0, namelength - 1)+'ti';
+				eliif (beforelastchar == "\u0148") // ň
+					return string.substring(0, namelength - 1)+'ni';
+				else
+					return string.substring(0, namelength - 1)+'i';
+				break;
+			default:
+		}
+		return 
 }
 
 function rules(inrule) {
