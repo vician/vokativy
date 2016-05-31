@@ -60,6 +60,10 @@ var output = document.getElementById('output');
 var rule = document.getElementById('rules');
 var totest = document.getElementById('totest');
 
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function rules(inrule) {
 	rule.value += inrule+"\n";
 
@@ -74,10 +78,16 @@ function rules(inrule) {
 function rename (inname) {
 	var outname = '';
 
-	inname = inname.trim();
+	inname = inname.trim().toLowerCase();
+
+	if(isforegin(inname)) {
+		rules("8");
+		return inname;
+	}
 
 	var lastchar = inname.slice(-1);
 	var beforelastchar = inname.slice(-2).charAt(0);
+	var beforebeforelastchar = inname.slice(-3).charAt(0);
 	var namelength = inname.length;
 	// Diactic converted by http://unicode-table.com/en/
 	switch (lastchar) {
@@ -162,8 +172,13 @@ function rename (inname) {
 		// 5.b 
 		case "l":
 			if (beforelastchar == "e" && namelength > 4) {
-				outname = inname.substring(0, namelength - 2)+'le';
-				rules("5b1");
+				if(beforebeforelastchar == "t") {
+					outname = inname+'i';
+					rules("5c");
+				} else {
+					outname = inname.substring(0, namelength - 2)+'le';
+					rules("5b1");
+				}
 			} else {
 				outname = inname+'e';
 				rules("5b2");
@@ -176,7 +191,7 @@ function rename (inname) {
 			break;
 		default:
 			outname = inname;
-			rules("7-default");
+			rules("7");
 	}
 
 	return outname;
@@ -206,7 +221,7 @@ function process () {
 
 	for (var index = 0; index < innames.length; index++) {
 		inname = innames[index];
-		output.value += rename(inname);
+		output.value += capitalize(rename(inname));
 		output.value += "\n";
 	}
 
@@ -242,6 +257,17 @@ function isvocal(char) {
 
 	if (vocals.indexOf(char) == -1) return false;
 	else return true;
+}
+
+function isforegin(word) {
+	var foregins = Array("aa","ae","ai","ay","ao","au","ea","ee","ei","ey","eo","eu","ia","ie","ii","iy","io","iu","ya","ye","yi","yy","yo","yu","oa","oe","oi","oy","oo","oy","ua","ue","ui","uy","uo","uu");
+
+	for (index = 0; index < foregins.length; index++) {
+		if(word.indexOf(foregins[index]) != -1)
+			return true
+	}
+
+	return false;
 }
 </script>
 
@@ -281,9 +307,11 @@ function isvocal(char) {
 					<li id="li5b1">-el -> -le</li>
 					<li id="li5b2">-el -> -ele (jednoslabicne)</li>
 				</ol>
+			<li id="li5c">-tel -> -teli</li>
 		</ol>
 	<li id="li6">-e -> -e</li>
 	<li id="li7">Jinak nemenit</li>
+	<li id="li8">Cizi jmeno obsahujici aa,ae,ai,ay,ao,au,ea,ee,ei,ey,eo,eu,ia,ie,ii,iy,io,iu,ya,ye,yi,yy,yo,yu,oa,oe,oi,oy,oo,oy,ua,ue,ui,uy,uo,uu</li>
 </ol>
 
 <h3>Návrhy</h3>
@@ -298,10 +326,10 @@ function isvocal(char) {
 Daniel
 Kos
 Vítr
-Učitel
 Pes
 Anděl
 Král
+Pytel
 </textarea>
 
 <div id="footer">
