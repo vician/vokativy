@@ -76,6 +76,7 @@ function vokativ($input,$db) {
 		if(isset($_GET['rules'])) {
 	                $to_return .= "Pravidlo č. ".$resulted['rule']."";
 		}
+		return $to_return;
         } else {
                 return "<h1><i>Vokativ tohoto příjmení se připravuje.</i></h1>";
         }
