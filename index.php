@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
-		<title>Landing Page template</title>
+		<title>Vokativy.cz</title>
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -20,65 +20,133 @@
        
         <div class="col-lg-12 text-center v-center">
           
-          <h1>Hello Landing</h1>
-          <p class="lead">A sign-up page example for Bootstrap 3</p>
+          <h1><a id="home" href="#">Vokativy.cz</a></h1>
+          <p class="lead">Jednoduchý způsob správného oslovení</p>
           
           <br><br><br>
           
-          <form class="col-lg-12">
-            <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-            <input class="form-control input-lg" title="Don't worry. We hate spam, and will not share your email with anyone." placeholder="Enter your email address" type="text">
+          <form class="col-lg-12" method="post" action="">
+            <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
+            <input class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; ?>">
               <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="button">OK</button></span>
             </div>
           </form>
         </div>
         
       </div> <!-- /row -->
-  
-  	  <div class="row">
+     <div class="row">
        
         <div class="col-lg-12 text-center v-center" style="font-size:39pt;">
-          <a href="#"><i class="icon-google-plus"></i></a> <a href="#"><i class="icon-facebook"></i></a>  <a href="#"><i class="icon-twitter"></i></a> <a href="#"><i class="icon-github"></i></a> <a href="#"><i class="icon-pinterest"></i></a>
+<?php
+define("DEBUG", false);
+
+mb_internal_encoding('UTF-8');
+
+function vokativ($input,$db) {
+        $from = trim(mb_strtoupper($input, 'UTF-8'));
+
+        if(DEBUG) echo $input." -> '".$from."' => ";
+
+        try {
+                //var_dump($db->querySingle("SELECT vokativ FROM surnames WHERE surname = '".$from."'"));
+                $resulted = $db->querySingle("SELECT * FROM surnames WHERE surname = '".$from."'",true);
+        }
+        catch (Exception $exception) {
+                echo "ERROR: ".$exception->getMessage();
+        }
+
+        if ($resulted == false) {
+                return "<h1><i>Chyba: Neznámé příjmení!</i></h1>";
+        }
+        if ($resulted['vokativ'] != "") {
+
+                $result = mb_substr ($resulted['vokativ'],0,1).mb_strtolower(mb_substr($resulted['vokativ'],1));
+
+		$to_return = '<p class="lead">Doporučujeme oslovení:</p><h1>';
+
+		if( mb_substr($result,-1) == "á") {
+			$to_return .= "Vážená paní ";
+		} else {
+			$to_return .= "Vážený pane ";
+		}
+
+		$to_return .= $result;
+
+		if(isset($_GET['rules'])) {
+	                $to_return .= " (".$resulted['rule'].")";
+		}
+		return $to_return."</h1>";
+        } else {
+                return "<h1><i>Vokativ tohoto příjmení se připravuje.</i></h1>";
+        }
+
+        return "<h1><i>Neznámá chyba!</i></h1>";
+}
+
+function stats($db) {
+        $all = $db->querySingle("SELECT COUNT(*) FROM surnames");
+        $done = $db->querySingle("SELECT COUNT(*) FROM surnames WHERE surnames.vokativ is not NULL");
+        $todo = $all - $done;
+
+        $done_pct = round(($done / $all) * 100);
+        $todo_pct = round(($todo / $all) * 100);
+
+        echo "Celkový počet příjmeních: $all<br>";
+        echo "Zpracovaných příjmeních: $done ($done_pct %)<br>";
+        echo "Zbývá: $todo ($todo_pct %)<br>";
+        echo "<hr/>";
+}
+
+try {
+        $db = new SQLite3('all.sqlite3');
+}
+catch (Exception $exception) {
+                echo "ERROR: ".$exception->getMessage();
+}
+if (isset($_POST['from'])) {
+
+	$to = vokativ($_POST['from'],$db);
+
+	echo $to;
+}
+?>
         </div>
-      
-      </div>
-  
+	</div>
   	<br><br><br><br><br>
 
 </div> <!-- /container full -->
 
-<div class="container">
+<div id="info" class="container">
   
   	<hr>
   
   	<div class="row">
         <div class="col-md-4">
           <div class="panel panel-default">
-            <div class="panel-heading"><h3>Hello.</h3></div>
-            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-            Aliquam in felis sit amet augue.
+            <div class="panel-heading"><h3>Statistiky</h3></div>
+            <div class="panel-body"><?php stats($db); ?>
             </div>
           </div>
         </div>
       	<div class="col-md-4">
         	<div class="panel panel-default">
-            <div class="panel-heading"><h3>Hello.</h3></div>
-            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-            Aliquam in felis sit amet augue.
+            <div class="panel-heading"><h3>Autoři</h3></div>
+            <div class="panel-body">
+		- Lucie Medová<br/>
+		- Klára Viciánová<br/>
+		- <a href="https://www.vician.cz/">Martin Vicián</a> (web, technologie)
             </div>
           </div>
         </div>
       	<div class="col-md-4">
         	<div class="panel panel-default">
-            <div class="panel-heading"><h3>Hello.</h3></div>
-            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-            Aliquam in felis sit amet augue.
+            <div class="panel-heading"><h3>Kontakt</h3></div>
+            <div class="panel-body">
+		- Obecné věci: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
+		- Pravidla vokativů <a href="mailto:&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
+		- Technologické záležitosti <a href="mailto:&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a>
+		<hr/>
+		- Projekt je ke stažení na <a href="https://github.com/vician/vokativy">githubu</a>
             </div>
           </div>
         </div>
@@ -87,7 +155,7 @@
 	<div class="row">
         <div class="col-lg-12">
         <br><br>
-          <p class="pull-right"><a href="http://www.bootply.com">Template from Bootply</a> &nbsp; ©Copyright 2013 ACME<sup>TM</sup> Brand.</p>
+          <p class="pull-right"><a href="http://www.bootply.com">Template from Bootply</a> &nbsp; ©Copyright 2016 Martin Vicián.</p>
         <br><br>
         </div>
     </div>
