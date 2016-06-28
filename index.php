@@ -72,10 +72,10 @@ function vokativ($input,$db) {
 
 		$to_return .= $result;
 
+		$to_return .= "</h1>";
 		if(isset($_GET['rules'])) {
-	                $to_return .= " (".$resulted['rule'].")";
+	                $to_return .= "Pravidlo č. ".$resulted['rule']."";
 		}
-		return $to_return."</h1>";
         } else {
                 return "<h1><i>Vokativ tohoto příjmení se připravuje.</i></h1>";
         }
@@ -91,10 +91,9 @@ function stats($db) {
         $done_pct = round(($done / $all) * 100);
         $todo_pct = round(($todo / $all) * 100);
 
-        echo "Celkový počet příjmeních: $all<br>";
-        echo "Zpracovaných příjmeních: $done ($done_pct %)<br>";
+        echo "Počet příjmení: $all<br>";
+        echo "Zpracovaných: $done ($done_pct %)<br>";
         echo "Zbývá: $todo ($todo_pct %)<br>";
-        echo "<hr/>";
 }
 
 try {
@@ -121,15 +120,23 @@ if (isset($_POST['from'])) {
   	<hr>
   
   	<div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Statistiky</h3></div>
             <div class="panel-body"><?php stats($db); ?>
             </div>
           </div>
         </div>
-      	<div class="col-md-4">
-        	<div class="panel panel-default">
+      	<div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3>Pravidla vokativů</h3></div>
+            <div class="panel-body">
+		<i>Zveřejnění připravujeme.</i>
+            </div>
+          </div>
+        </div>
+      	<div class="col-md-3">
+          <div class="panel panel-default">
             <div class="panel-heading"><h3>Autoři</h3></div>
             <div class="panel-body">
 		- Lucie Medová<br/>
@@ -138,13 +145,13 @@ if (isset($_POST['from'])) {
             </div>
           </div>
         </div>
-      	<div class="col-md-4">
+      	<div class="col-md-3">
         	<div class="panel panel-default">
             <div class="panel-heading"><h3>Kontakt</h3></div>
             <div class="panel-body">
-		- Obecné věci: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
-		- Pravidla vokativů <a href="mailto:&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
-		- Technologické záležitosti <a href="mailto:&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a>
+		- Obecné věci:<br/>&nbsp;&nbsp;&nbsp;<a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
+		- Pravidla vokativů:<br/>&nbsp;&nbsp;&nbsp;<a href="mailto:&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
+		- Technologické záležitosti:<br/>&nbsp;&nbsp;&nbsp;<a href="mailto:&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a>
 		<hr/>
 		- Projekt je ke stažení na <a href="https://github.com/vician/vokativy">githubu</a>
             </div>
@@ -155,7 +162,7 @@ if (isset($_POST['from'])) {
 	<div class="row">
         <div class="col-lg-12">
         <br><br>
-          <p class="pull-right"><a href="http://www.bootply.com">Template from Bootply</a> &nbsp; ©Copyright 2016 Martin Vicián.</p>
+          <p class="pull-right"><a href="http://www.bootply.com">Template from Bootply</a> Copyright 2016 Martin Vicián</p>
         <br><br>
         </div>
     </div>
