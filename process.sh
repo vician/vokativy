@@ -4,6 +4,7 @@ if [ $# -ne 1 ]; then
 	echo "Spatne parametr!"
 	echo "Ma byt: $0 zip_file"
 	echo "Zip ke stazeni na: http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni-722752.aspx"
+	echo "Odkaz: Přehled četnosti všech příjmení"
 	exit 1
 fi
 
