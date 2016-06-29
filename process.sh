@@ -1,7 +1,9 @@
 #!/bin/bash
 
 if [ $# -ne 1 ]; then
-	echo "Wrong arguments, should be: $0 zip_file"
+	echo "Spatne parametr!"
+	echo "Ma byt: $0 zip_file"
+	echo "Zip ke stazeni na: http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni-722752.aspx"
 	exit 1
 fi
 
