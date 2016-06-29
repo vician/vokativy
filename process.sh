@@ -1,12 +1,15 @@
 #!/bin/bash
 
 if [ $# -ne 1 ]; then
-	echo "Wrong arguments, should be: $0 xls_file"
+	echo "Wrong arguments, should be: $0 zip_file"
 	exit 1
 fi
 
-#@todo unzip $1
-input=$1
+zip=$1
+
+unzip $zip
+
+input=$(echo $zip | sed 's/\.zip$/.xls/' | sed 's/-/_/g')
 
 which ssconvert 1>/dev/null 2>/dev/null
 if [ $? -ne 0 ]; then
