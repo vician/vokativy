@@ -45,6 +45,7 @@ sqlite3 $input.sqlite3 "DELETE FROM surnames WHERE surname = 'SOUČET'"
 # Odstranit SOUČET
 
 sqlite3 $input.sqlite3 < rules.sql
+ln -s $input.sqlite3 current.sqlite3
 
 rm $input.csv*
 rm $input

@@ -98,7 +98,7 @@ function stats($db) {
 }
 
 try {
-        $db = new SQLite3('all.sqlite3');
+        $db = new SQLite3('current.sqlite3');
 }
 catch (Exception $exception) {
                 echo "ERROR: ".$exception->getMessage();
