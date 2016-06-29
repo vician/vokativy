@@ -42,7 +42,9 @@ define("DEBUG", false);
 
 mb_internal_encoding('UTF-8');
 
-function vokativ($input,$db) {
+$rule = 0;
+
+function vokativ($input,$db,&$rule) {
         $from = trim(mb_strtoupper($input, 'UTF-8'));
 
         if(DEBUG) echo $input." -> '".$from."' => ";
@@ -73,9 +75,7 @@ function vokativ($input,$db) {
 		$to_return .= $result;
 
 		$to_return .= "</h1>";
-		if(isset($_GET['rules'])) {
-	                $to_return .= "<div id='rules'>Pravidlo č. ".$resulted['rule']."</div>";
-		}
+		$rule = $resulted['rule'];
 		return $to_return;
         } else {
                 return "<h1><i>Vokativ tohoto příjmení se připravuje.</i></h1>";
@@ -108,7 +108,7 @@ if (isset($_POST['from'])) {
 	echo '<div class="row"><div class="col-lg-12 text-center v-center-smaller" style="font-size:39pt;">';
 
 
-	$to = vokativ($_POST['from'],$db);
+	$to = vokativ($_POST['from'],$db,$rule);
 
 	echo $to;
 
@@ -138,6 +138,7 @@ if (isset($_POST['from'])) {
             <div class="panel-heading"><h3>Pravidla vokativů</h3></div>
             <div class="panel-body">
 <?php
+
 $rules = array();
 $surnames[] = "";
 $surnames[] = array(
@@ -176,12 +177,19 @@ $surnames[] = array(
 "Přidání písmene <b>U</b>, odebrání předposledního písmene a změkčení předpředposledního písmene:",
 	"příjmení končící na písmena <b>DĚK</b>, <b>TĚK</b> nebo <b>NĚK</b>",
 );
+
+$rint = intval($rule);
+
 echo $surnames[0];
 echo "<ol>\n";
 for($i = 1; $i < count($surnames); $i++) {
-	echo "<li id=\"s".($i)."\">".$surnames[$i][0]."</li>\n<ol>\n";
+	echo "<li id=\"s".($i)."\"";
+	if ($rint == $i) echo " style=\"background: yellow;\"";
+	echo ">".$surnames[$i][0]."</li>\n<ol>\n";
 	for($j = 1; $j < count($surnames[$i]); $j++) {
-		echo "<li id=\"s".$i."-".chr(96+$j)."\">".$surnames[$i][$j]."</li>\n";
+		echo "<li id=\"s".$i."-".chr(96+$j)."\"";
+		if ($rule == $i."-".chr(96+$j)) echo " style=\"background: yellow;\"";
+		echo ">".$surnames[$i][$j]."</li>\n";
 	}
 	echo "</ol>\n";
 }
