@@ -137,10 +137,56 @@ if (isset($_POST['from'])) {
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Pravidla vokativů</h3></div>
             <div class="panel-body">
-		<i>Zveřejnění připravujeme.</i>
-		<ol style="padding-left: 20px;">
-			<li></li>
-		</ol>
+<?php
+$rules = array();
+$surnames[] = "";
+$surnames[] = array(
+"Vokativ stejný jako nominativ:",
+	"příjmení jedno a dvou písmenná",
+	"příjmení končící na písmena <b>Á</b>, <b>E</b>, <b>É</b>, <b>I</b>, <b>Í</b>, <b>Ý</b>, <b>Ó</b>, <b>Ú</b>, <b>Ů</b>, <b>O</b> nebo <b>Y</b>",
+);
+$surnames[] = array(
+"Změna posledního písmene na písmeno <b>O</b>:",
+	"příjmení končící na písmeno <b>A</b>"
+);
+$surnames[] = array(
+"Přidání písmene <b>I</b>:",
+	"příjmení končící na písmena <b>Ž</b>, <b>Š</b>, <b>Č</b>, <b>Ř</b>, <b>S</b> nebo <b>J</b>",
+);
+$surnames[] = array(
+"Přidání písmene <b>I</b> a změkčení předposlendího písmene:",
+	"příjmení končící na písmena <b>Ď</b>, <b>Ť</b> nebo <b>Ň</b>",
+);
+$surnames[] = array(
+"Přidání písmene <b>E</b>:",
+	"příjmení končící na písmena <b>B</b>, <b>D</b>, <b>F</b>, <b>P</b>, <b>Q</b>, <b>R</b>, <b>T</b> nebo <b>M</b>",
+	"příjmení končící na písmeno <b>N</b>, ale předposlední není <b>E</b> nebo <b>Ě</b>",
+	"příjmení končící na písmeno <b>L</b>, ale předposlední není <b>Á</b>, <b>E</b> nebo <b>Ě</b>",
+);
+$surnames[] = array(
+"Přidání písmene <b>U</b>:",
+	"příjmení končící na písmeno <b>K</b>, ale předposlední není <b>E</b> nebo <b>Ě</b>",
+);
+$surnames[] = array(
+"Přidání písmene <b>U</b> a odebrání předposledního písmene:",
+	"příjmení končící na písmena <b>EK</b>",
+);
+$surnames[] = array(
+"Přidání písmene <b>U</b>, odebrání předposledního písmene a změkčení předpředposledního písmene:",
+	"příjmení končící na písmena <b>DĚK</b>, <b>TĚK</b> nebo <b>NĚK</b>",
+);
+echo $surnames[0];
+echo "<ol>\n";
+for($i = 1; $i < count($surnames); $i++) {
+	echo "<li id=\"s".($i)."\">".$surnames[$i][0]."</li>\n<ol>\n";
+	for($j = 1; $j < count($surnames[$i]); $j++) {
+		echo "<li id=\"s".$i."-".chr(96+$j)."\">".$surnames[$i][$j]."</li>\n";
+	}
+	echo "</ol>\n";
+}
+echo "</ol>\n";
+
+?>
             </div>
           </div>
         </div>
@@ -158,6 +204,7 @@ if (isset($_POST['from'])) {
         	<div class="panel panel-default">
             <div class="panel-heading"><h3>Kontakt</h3></div>
             <div class="panel-body">
+		- Nahlásit chybu: <a href=""></a><br/>
 		- Obecné věci:<br/>&nbsp;&nbsp;&nbsp;<a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
 		- Pravidla vokativů:<br/>&nbsp;&nbsp;&nbsp;<a href="mailto:&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#112;&#114;&#97;&#118;&#105;&#100;&#108;&#97;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
 		- Technologické záležitosti:<br/>&nbsp;&nbsp;&nbsp;<a href="mailto:&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#116;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a>

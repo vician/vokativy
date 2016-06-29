@@ -42,3 +42,11 @@ h1 #home a:hover {
 .v-center-smaller {
   margin-top:4%;
 }
+
+ol {
+  padding-left: 20px;
+}
+
+ol ol {
+  list-style-type: lower-alpha;
+}
