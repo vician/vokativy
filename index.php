@@ -28,7 +28,7 @@
           <form class="col-lg-12" method="post" action="">
             <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
             <input class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; ?>">
-              <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="button">OK</button></span>
+              <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit">OK</button></span>
             </div>
           </form>
         </div>
@@ -184,11 +184,11 @@ echo $surnames[0];
 echo "<ol>\n";
 for($i = 1; $i < count($surnames); $i++) {
 	echo "<li id=\"s".($i)."\"";
-	if ($rint == $i) echo " style=\"background: yellow;\"";
+	if ($rint == $i) echo " style=\"background: #DDCCEE;\"";
 	echo ">".$surnames[$i][0]."</li>\n<ol>\n";
 	for($j = 1; $j < count($surnames[$i]); $j++) {
 		echo "<li id=\"s".$i."-".chr(96+$j)."\"";
-		if ($rule == $i."-".chr(96+$j)) echo " style=\"background: yellow;\"";
+		if ($rule == $i."-".chr(96+$j)) echo " style=\"background: #DDCCEE;\"";
 		echo ">".$surnames[$i][$j]."</li>\n";
 	}
 	echo "</ol>\n";
