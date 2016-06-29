@@ -34,9 +34,9 @@
         </div>
         
       </div> <!-- /row -->
-     <div class="row">
+     <!--<div class="row">
        
-        <div class="col-lg-12 text-center v-center" style="font-size:39pt;">
+        <div class="col-lg-12 text-center v-center" style="font-size:39pt;">-->
 <?php
 define("DEBUG", false);
 
@@ -74,7 +74,7 @@ function vokativ($input,$db) {
 
 		$to_return .= "</h1>";
 		if(isset($_GET['rules'])) {
-	                $to_return .= "Pravidlo č. ".$resulted['rule']."";
+	                $to_return .= "<div id='rules'>Pravidlo č. ".$resulted['rule']."</div>";
 		}
 		return $to_return;
         } else {
@@ -105,13 +105,18 @@ catch (Exception $exception) {
 }
 if (isset($_POST['from'])) {
 
+	echo '<div class="row"><div class="col-lg-12 text-center v-center-smaller" style="font-size:39pt;">';
+
+
 	$to = vokativ($_POST['from'],$db);
 
 	echo $to;
+
+	echo '</div></div>';
 }
 ?>
-        </div>
-	</div>
+        <!--</div>
+	</div>-->
   	<br><br><br><br><br>
 
 </div> <!-- /container full -->

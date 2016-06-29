@@ -38,4 +38,7 @@ h1 #home a:hover {
 .v-center {
   margin-top:7%;
 }
-  
+
+.v-center-smaller {
+  margin-top:4%;
+}
