@@ -144,7 +144,7 @@ $surnames[] = "";
 $surnames[] = array(
 "Vokativ stejný jako nominativ:",
 	"příjmení jedno a dvou písmenná",
-	"příjmení končící na písmena <b>Á</b>, <b>E</b>, <b>É</b>, <b>I</b>, <b>Í</b>, <b>Ý</b>, <b>Ó</b>, <b>Ú</b>, <b>Ů</b>, <b>O</b> nebo <b>Y</b>",
+	"příjmení končící na písmena <b>Á</b>, <b>E</b>, <b>É</b>, <b>Ě</b>, <b>I</b>, <b>Í</b>, <b>Ý</b>, <b>Ó</b>, <b>Ú</b>, <b>Ů</b>, <b>O</b> nebo <b>Y</b>",
 );
 $surnames[] = array(
 "Změna posledního písmene na písmeno <b>O</b>:",

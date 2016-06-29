@@ -1,10 +1,11 @@
 -- 1: Beze zmeny
 	-- 1.a:
 	UPDATE surnames SET vokativ = surnames.surname, rule = '1-a' WHERE length(surnames.surname) <= 2 AND surnames.vokativ is NULL;
-	-- 1.b: Á, E, É, I, Y, Í, Ý, O, Ó, Ú, Ů, O
+	-- 1.b: Á, E, É, Ě, I, Y, Í, Ý, O, Ó, Ú, Ů, O
 	UPDATE surnames SET vokativ = surnames.surname, rule = '1-b' WHERE surnames.surname LIKE "%Á" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname, rule = '1-b' WHERE surnames.surname LIKE "%E" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname, rule = '1-b' WHERE surnames.surname LIKE "%É" AND surnames.vokativ is NULL;
+	UPDATE surnames SET vokativ = surnames.surname, rule = '1-b' WHERE surnames.surname LIKE "%Ě" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname, rule = '1-b' WHERE surnames.surname LIKE "%I" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname, rule = '1-b' WHERE surnames.surname LIKE "%Y" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname, rule = '1-b' WHERE surnames.surname LIKE "%Í" AND surnames.vokativ is NULL;
