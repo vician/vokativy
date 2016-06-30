@@ -12,7 +12,11 @@ function stats($db) {
 
         echo "Počet příjmení: $all<br/>";
         echo "Zpracovaných: $done ($done_pct %)<br/>";
-        echo "Zbývá: $todo ($todo_pct %)";
+				echo "Zbývá: $todo ($todo_pct %)<br/>";
+
+				$first_error = $db->querySingle("SELECT COUNT(*) FROM  surnames, (SELECT * FROM surnames WHERE surnames.vokativ is NULL ORDER BY surnames.cetnost DESC LIMIT 0,1) as FIRST WHERE surnames.cetnost > FIRST.cetnost;");
+				$first_error_pct = round(($first_error / $all) * 100);
+				echo "Bez chyby prvních: $first_error ($first_error_pct %)";
 
 	echo "<hr/>";
 
