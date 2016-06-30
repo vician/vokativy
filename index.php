@@ -157,10 +157,11 @@ $surnames[] = array(
 $surnames[] = array(
 "Přidání písmene <b>I</b> a změkčení předposlendího písmene:",
 	"příjmení končící na písmena <b>Ď</b>, <b>Ť</b> nebo <b>Ň</b>",
+	"příjmení končící na písmena <b>C</b>, ale předposlední není <b>E</b>",
 );
 $surnames[] = array(
 "Přidání písmene <b>E</b>:",
-	"příjmení končící na písmena <b>B</b>, <b>D</b>, <b>F</b>, <b>P</b>, <b>Q</b>, <b>R</b>, <b>T</b> nebo <b>M</b>",
+	"příjmení končící na písmena <b>B</b>, <b>D</b>, <b>F</b>, <b>M</b>, <b>P</b>, <b>Q</b>, <b>R</b> nebo <b>T</b>",
 	"příjmení končící na písmeno <b>N</b>, ale předposlední není <b>E</b> nebo <b>Ě</b>",
 	"příjmení končící na písmeno <b>L</b>, ale předposlední není <b>Á</b>, <b>E</b> nebo <b>Ě</b>",
 );
@@ -176,6 +177,10 @@ $surnames[] = array(
 $surnames[] = array(
 "Přidání písmene <b>U</b>, odebrání předposledního písmene a změkčení předpředposledního písmene:",
 	"příjmení končící na písmena <b>DĚK</b>, <b>TĚK</b> nebo <b>NĚK</b>",
+);
+$surnames[] = array(
+"Přidání písmene <b>E</b>, změkčení poslendího a odebrání předposledního:",
+	"příjmení končící na písmena <b>EC</b>",
 );
 
 $rint = intval($rule);

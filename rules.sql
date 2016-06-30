@@ -28,6 +28,7 @@
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%Ř" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%S" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%J" AND surnames.vokativ is NULL;
+	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-b' WHERE surnames.surname LIKE "%C" AND surnames.surname NOT LIKE "%EC" AND surnames.vokativ is NULL;
 
 -- 4: +I a zmekceni
 	-- 4.a: Ď, Ť, Ň
@@ -64,3 +65,6 @@
 	UPDATE surnames SET vokativ = substr(surnames.surname,0,length(surnames.surname)-2) || 'ĎKU', rule = '8-a' WHERE surnames.surname LIKE "%DĚK" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = substr(surnames.surname,0,length(surnames.surname)-2) || 'ŤKU', rule = '8-a' WHERE surnames.surname LIKE "%TĚK" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = substr(surnames.surname,0,length(surnames.surname)-2) || 'ŇKU', rule = '8-a' WHERE surnames.surname LIKE "%NĚK" AND surnames.vokativ is NULL;
+
+-- 9: EC -> ČE
+	UPDATE surnames SET vokativ = substr(surnames.surname,0,length(surnames.surname)-1) || 'ČE', rule = '9-a' WHERE surnames.surname LIKE "%EC" AND surnames.vokativ is NULL;

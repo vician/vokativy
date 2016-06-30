@@ -1,2 +1,3 @@
 Král,Králi
 Švec,Šveci
+Kadlec,Kadleci
