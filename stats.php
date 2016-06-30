@@ -16,7 +16,8 @@ function stats($db) {
 
 	echo "<hr/>";
 
-	echo "Počet příjmení v pravidlech dle posledního písmene:<br/>\n";
+	echo "<a onclick=\"\$('#by_alphabet_rule').toggle();\">Počet příjmení v pravidlech dle posledního písmene</a><br/>\n";
+	echo "<div id=\"by_alphabet_rule\" style=\"display: none;\">";
 	$by_alphabet_rule = $db->query("SELECT rule,substr(surname,-1) char,count(*) count FROM surnames GROUP BY substr(surname,-1),rule ORDER BY char ASC,rule ASC;");
 	$last = "";
 	while ($row = $by_alphabet_rule->fetchArray()) {
@@ -29,11 +30,14 @@ function stats($db) {
 		$last = $row['char'];
 	}
 
+	echo "</div>";
+
 	echo "<hr/>";
 
 	$by_rule = $db->query("SELECT rule,COUNT(*) count FROM surnames GROUP BY rule");
 
-	echo "Počet příjmení pro jednotlivá pravidla:\n";
+	echo "<a onclick=\"\$('#by_rule').toggle();\">Počet příjmení pro jednotlivá pravidla</a>\n";
+	echo "<div id=\"by_rule\" style=\"display: none;\">";
 	echo "<ol>\n";
 	$last = 0;
 	$not_yet = 0;
@@ -56,7 +60,7 @@ function stats($db) {
 	}
 	echo "\t</ol>\n";
 	echo "</ol>\n";
-	/*echo "zbýva: ".$not_yet;*/
+	echo "</div>";
 }
 
 try {

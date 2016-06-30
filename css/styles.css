@@ -50,3 +50,9 @@ ol {
 ol ol {
   list-style-type: lower-alpha;
 }
+
+a{
+	cursor: hand;
+	cursor: pointer
+}
+
