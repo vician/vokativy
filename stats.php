@@ -16,7 +16,7 @@ function stats($db) {
 
 				$first_miss = $db->querySingle("SELECT COUNT(*) FROM  surnames, (SELECT * FROM surnames WHERE surnames.vokativ is NULL ORDER BY surnames.cetnost DESC LIMIT 0,1) as FIRST WHERE surnames.cetnost > FIRST.cetnost;");
 				$first_miss_pct = round(($first_miss / $all) * 100);
-				echo "Hotovo prvních: $first_miss ($first_miss_pct %)";
+				echo "Hotovo nejčastějších: $first_miss ($first_miss_pct %)";
 
 	echo "<hr/>";
 
