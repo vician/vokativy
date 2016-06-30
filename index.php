@@ -218,7 +218,7 @@ echo "</ol>\n";
         	<div class="panel panel-default">
             <div class="panel-heading"><h3>Kontakt</h3></div>
             <div class="panel-body">
-		Pokud jste nalezli chybu, nebo chcete tuto aplikaci použít v komerční sféře, nebojte se nás kontaktovat na: <br/><a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
+		Pokud jste nalezli chybu, nebo chcete tuto aplikaci použít v komerční sféře, nebojte se nás kontaktovat na: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
 		<?php /*
 		<hr/>
 		- Projekt je ke stažení na <a href="https://github.com/vician/vokativy">githubu</a>
