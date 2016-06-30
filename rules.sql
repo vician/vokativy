@@ -55,6 +55,7 @@
 	-- 6.a: K,CH
 	UPDATE surnames SET vokativ = surnames.surname || 'U', rule = '6-a' WHERE surnames.surname LIKE "%K" AND surnames.surname NOT LIKE "%EK" AND surnames.surname NOT LIKE "%ĚK" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'U', rule = '6-b' WHERE surnames.surname LIKE "%CH" AND surnames.vokativ is NULL;
+	UPDATE surnames SET vokativ = surnames.surname || 'U', rule = '6-b' WHERE surnames.surname LIKE "%G" AND surnames.vokativ is NULL;
 
 -- 7: +U, -predp
 	-- 7.a EK
