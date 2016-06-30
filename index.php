@@ -92,9 +92,53 @@ function stats($db) {
         $done_pct = round(($done / $all) * 100);
         $todo_pct = round(($todo / $all) * 100);
 
-        echo "Počet příjmení: $all<br>";
-        echo "Zpracovaných: $done ($done_pct %)<br>";
-        echo "Zbývá: $todo ($todo_pct %)<br>";
+        echo "Počet příjmení: $all<br/>";
+        echo "Zpracovaných: $done ($done_pct %)<br/>";
+        echo "Zbývá: $todo ($todo_pct %)";
+
+	echo "<hr/>";
+
+	echo "Počet příjmení v pravidlech dle posledního písmene:<br/>\n";
+	$by_alphabet_rule = $db->query("SELECT rule,substr(surname,-1) char,count(*) count FROM surnames GROUP BY substr(surname,-1),rule ORDER BY char ASC,rule ASC;");
+	$last = "";
+	while ($row = $by_alphabet_rule->fetchArray()) {
+		if($row['rule'] == NULL) $rule = "?";
+		else $rule = $row['rule'];
+		
+		if($last != $row['char']) echo "<b>".$row['char']."</b><br/>\n";
+		echo "&nbsp;&nbsp;&nbsp;".(str_replace("-",".",$rule)).": ".$row['count']."<br/>\n";
+
+		$last = $row['char'];
+	}
+
+	echo "<hr/>";
+
+	$by_rule = $db->query("SELECT rule,COUNT(*) count FROM surnames GROUP BY rule");
+
+	echo "Počet příjmení pro jednotlivá pravidla:\n";
+	echo "<ol>\n";
+	$last = 0;
+	$not_yet = 0;
+	while ($row = $by_rule->fetchArray()) {
+		if($row['rule'] == NULL) {
+			$not_yet = $row['count'];
+			continue;
+		}
+		
+		$current = intval($row['rule']);
+
+		if($last != $current) {
+			if($last != 0) echo "\t</ol>\n";
+			echo "\t<li></li>\n";
+			echo "\t<ol>\n";
+		}
+		echo "\t\t<li>".$row['count']."</li>\n";
+
+		$last = $current;
+	}
+	echo "\t</ol>\n";
+	echo "</ol>\n";
+	/*echo "zbýva: ".$not_yet;*/
 }
 
 try {
@@ -181,6 +225,9 @@ $surnames[] = array(
 $surnames[] = array(
 "Přidání písmene <b>E</b>, změkčení poslendího a odebrání předposledního:",
 	"příjmení končící na písmena <b>EC</b>",
+);
+$surnames[] = array(
+"Vyjímky",
 );
 
 $rint = intval($rule);
