@@ -139,7 +139,7 @@ $surnames[] = array(
 );
 $surnames[] = array(
 "Přidání písmene <b>I</b>:",
-	"příjmení končící na písmena <b>Ž</b>, <b>Š</b>, <b>Č</b>, <b>Ř</b>, <b>S</b> nebo <b>J</b>",
+	"příjmení končící na písmena <b>Ž</b>, <b>Š</b>, <b>Č</b>, <b>Ř</b>, <b>S</b>, <b>J</b> nebo <b>Z</b>",
 );
 $surnames[] = array(
 "Přidání písmene <b>I</b> a změkčení předposlendího písmene:",

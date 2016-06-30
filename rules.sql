@@ -21,13 +21,14 @@
 	UPDATE surnames SET vokativ = substr(surnames.surname,0,length(surnames.surname)) || 'O', rule = '2-a' WHERE surnames.surname LIKE "%A" AND surnames.vokativ is NULL;
 
 -- 3: +I
-	-- 3.a: Ž, Š, Č, Ř, S, J
+	-- 3.a: Ž, Š, Č, Ř, S, J, Z
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%Ž" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%Š" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%Č" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%Ř" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%S" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%J" AND surnames.vokativ is NULL;
+	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-a' WHERE surnames.surname LIKE "%Z" AND surnames.vokativ is NULL;
 	UPDATE surnames SET vokativ = surnames.surname || 'I', rule = '3-b' WHERE surnames.surname LIKE "%C" AND surnames.surname NOT LIKE "%EC" AND surnames.vokativ is NULL;
 
 -- 4: +I a zmekceni
