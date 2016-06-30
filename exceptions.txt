@@ -1,3 +1,10 @@
 Král,Králi
 Švec,Šveci
 Kadlec,Kadleci
+Havel,Havle
+Doležel,Doleželi
+Kozel,Kozle
+Daniel,Danieli
+Gabriel,Gabrieli
+Buben,Bubne
+Duben,Dubne
