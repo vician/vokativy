@@ -8,3 +8,17 @@ Daniel,Danieli
 Gabriel,Gabrieli
 Buben,Bubne
 Duben,Dubne
+Anděl,Anděli
+Vorel,Vorle
+Pavel,Pavle
+Zavřel,Zavřeli
+Skácel,Skácele
+Suchomel,Suchomele,
+Korbel,Korbeli
+Karel,Karle
+Kužel,Kuželi
+Sysel,Sysle
+Chmel,Chmeli
+Lev,Lve
+Snášel,Snášeli
+Brhel,Brheli

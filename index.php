@@ -152,6 +152,7 @@ $surnames[] = array(
 	"příjmení končící na písmeno <b>N</b>, ale předposlední není <b>Ě</b>",
 	"příjmení končící na písmeno <b>L</b>, ale předposlední není <b>E</b> nebo <b>Ě</b>",
 	"příjmení končící na písmeno <b>H</b>, ale předposlední není <b>C</b>",
+	"příjmení končící na písmeno <b>V</b>, ale předposlední není <b>A</b>",
 );
 $surnames[] = array(
 "Přidání písmene <b>U</b>:",
