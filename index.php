@@ -127,7 +127,7 @@ if (isset($_POST['from'])) {
 <?php
 
 $rules = array();
-$surnames[] = "";
+$surnames[] = "<a onclick=\"\$('#rules').toggle();\">Použitá pravidla</a>";
 $surnames[] = array(
 "Vokativ stejný jako nominativ:",
 	"příjmení jedno a dvou písmenná",
@@ -176,6 +176,7 @@ $surnames[] = array(
 $rint = intval($rule);
 
 echo $surnames[0];
+echo "<div id=\"rules\" style=\"display: none;\">";
 echo "<ol>\n";
 for($i = 1; $i < count($surnames); $i++) {
 	echo "<li id=\"s".($i)."\"";
@@ -189,7 +190,7 @@ for($i = 1; $i < count($surnames); $i++) {
 	echo "</ol>\n";
 }
 echo "</ol>\n";
-
+echo "</div>";
 ?>
             </div>
           </div>
