@@ -25,15 +25,19 @@
           
           <br><br><br>
           
-          <form class="col-lg-12" method="post" action="">
+          <form class="col-lg-12" method="post" action="" id="form">
             <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
-            <input class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; ?>">
-							<span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit">OK</button></span><br/>
-							<?php /*<div class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"></div>*/ ?>
+            <input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; ?>" oclick="$('#recaptcha').show();">
+							<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" disabled="true" onclick="redcaptcha();">OK</button></span><br/>
             </div>
+						<div align="center">
+							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn" style="visibility: hidden;"></div>
+						</div>
           </form>
         </div>
         
+
+
       </div> <!-- /row -->
      <!--<div class="row">
        
@@ -92,14 +96,30 @@ catch (Exception $exception) {
                 echo "ERROR: ".$exception->getMessage();
 }
 if (isset($_POST['from'])) {
-
+	
 	echo '<div class="row"><div class="col-lg-12 text-center v-center-smaller" style="font-size:39pt;">';
+	
+	if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
+	
+		$secret = '6LftwyQTAAAAAN4nmpNKicqsQkb47BCjH1wPxLmE';
+		//get verify response data
+		$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+		$responseData = json_decode($verifyResponse);
+	
+	
+		if($responseData->success) {
+		
+			$to = vokativ($_POST['from'],$db,$rule);
 
+			echo $to;
+	
+		} else {
 
-	$to = vokativ($_POST['from'],$db,$rule);
+			echo "Robot verification failed, please try again.";
+		}
 
-	echo $to;
-
+	} else echo "Please click on the reCAPTCHA box.";
+	
 	echo '</div></div>';
 }
 ?>
@@ -237,8 +257,27 @@ echo "</div>";
 	<!-- script references -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script src='https://www.google.com/recaptcha/api.js'></script>
+		<script src='https://www.google.com/recaptcha/api.js?hl=cs'></script>
 
+<script>
+
+$("#surname").on('input',(function(e) {
+	$('#recaptcha').css('visibility', 'visible')
+}));
+
+
+function enableBtn() {
+	if(grecaptcha.getResponse()){
+		$("#submit").prop('disabled', false);
+	}
+}
+
+$("#submit").submit(function(e) {
+	alert('dont!');
+	$('#recaptcha').css('border-color','red');
+});
+
+</script>
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
