@@ -29,7 +29,7 @@
             <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
             <input class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; ?>">
 							<span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit">OK</button></span><br/>
-							<div class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"></div>
+							<?php /*<div class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"></div>*/ ?>
             </div>
           </form>
         </div>
