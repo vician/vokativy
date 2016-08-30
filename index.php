@@ -31,7 +31,7 @@
 							<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" disabled="true" onclick="redcaptcha();">OK</button></span><br/>
             </div>
 						<div align="center">
-							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn" style="visibility: hidden;"></div>
+							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn" style="<?php if($_POST) {echo "display: none"} else {echo "visibility: hidden"} ?>;"></div>
 						</div>
           </form>
         </div>
@@ -262,8 +262,14 @@ echo "</div>";
 
 <script>
 
-$("#surname").on('input',(function(e) {
-	$('#recaptcha').css('visibility', 'visible')
+		$("#surname").on('input',(function(e) {
+<?php
+if($_POST) {
+		echo  "$('#recaptcha').show()";
+	} else {
+		echo "$('#recaptcha').css('visibility', 'visible')";
+	}
+?>
 }));
 
 
