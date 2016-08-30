@@ -265,7 +265,7 @@ echo "</div>";
 		$("#surname").on('input',(function(e) {
 <?php
 if($_POST) {
-		echo  "$('#recaptcha').show()";
+		echo  "$('#recaptcha').show('slow')";
 	} else {
 		echo "$('#recaptcha').css('visibility', 'visible')";
 	}
