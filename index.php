@@ -226,7 +226,8 @@ echo "</div>";
 		- Klára Viciánová<br/>
 		- <a href="https://www.vician.cz/">Martin Vicián</a> (web, technologie)
 		<hr/>
-		Zdroj dat: <a href="http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni.aspx">MVČR</a>, aktualizace <?php echo file_get_contents("./data.html"); ?>
+		Zdroj dat: <a href="http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni.aspx">MVČR</a><br/>
+		- aktualizovano k <?php echo file_get_contents("./data.html"); ?>
             </div>
           </div>
         </div>
