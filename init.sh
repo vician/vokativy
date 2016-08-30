@@ -8,7 +8,12 @@ if [ $# -ne 1 ]; then
 	exit 1
 fi
 
+
 zip=$1
+
+date=$(echo $zip | awk -F'[_.]' '{print $2}')
+
+echo "$date" > data.html
 
 unzip $zip
 
@@ -45,6 +50,8 @@ sqlite3 $input.sqlite3 "DELETE FROM surnames WHERE surname = 'SOUČET'"
 # Odstranit SOUČET
 
 sqlite3 $input.sqlite3 < rules.sql
+mv current.sqlite3 old.sqlite3
+rm current.sqlite3
 ln -s $input.sqlite3 current.sqlite3
 
 ./exceptions.sh

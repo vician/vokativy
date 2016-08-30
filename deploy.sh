@@ -9,3 +9,4 @@ if [ $# -eq 1 ]; then
 fi
 
 scp current.sqlite3 vf.vician.cz:/var/www/vokativy.cz/$dir
+scp data.html vf.vician.cz:/var/www/vokativy.cz/$dir
