@@ -15,35 +15,32 @@
 	</head>
 	<body>
 <div class="container-full">
-
+<?php
+define("DEBUG", true);
+?>
       <div class="row">
-       
         <div class="col-lg-12 text-center v-center">
-          
           <h1><a id="home" href="#">Vokativy.cz</a></h1>
           <p class="lead">Jednoduchý způsob správného oslovení</p>
-          
           <br><br><br>
-          
           <form class="col-lg-12" method="post" action="" id="form">
             <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
             <input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; ?>" oclick="$('#recaptcha').show();">
-							<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" disabled="true" onclick="redcaptcha();">OK</button></span><br/>
-            </div>
+			<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" <?php if (DEBUG == false) { ?>disabled="true" <?php } ?>onclick="redcaptcha();">OK</button></span><br/>
+			</div>
+<?php if(DEBUG == false){ ?>
 						<div align="center">
 							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn" style="<?php if($_POST) {echo "display: none";} else {echo "visibility: hidden";} ?>;"></div>
 						</div>
           </form>
-        </div>
-        
+		</div>
+<?php } ?>
 
 
       </div> <!-- /row -->
      <!--<div class="row">
-       
         <div class="col-lg-12 text-center v-center" style="font-size:39pt;">-->
 <?php
-define("DEBUG", false);
 
 mb_internal_encoding('UTF-8');
 
@@ -90,7 +87,7 @@ function vokativ($input,$db,&$rule) {
 }
 
 try {
-        $db = new SQLite3('current.sqlite3');
+        $db = new SQLite3('data/db.sqlite3');
 }
 catch (Exception $exception) {
                 echo "ERROR: ".$exception->getMessage();
@@ -99,15 +96,16 @@ if (isset($_POST['from'])) {
 	
 	echo '<div class="row"><div class="col-lg-12 text-center v-center-smaller" style="font-size:39pt;">';
 	
-	if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
+	if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']) || DEBUG == true) {
+
+		if (DEBUG == false) {
+			$secret = '6LftwyQTAAAAAN4nmpNKicqsQkb47BCjH1wPxLmE';
+			//get verify response data
+			$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+			$responseData = json_decode($verifyResponse);
+		}
 	
-		$secret = '6LftwyQTAAAAAN4nmpNKicqsQkb47BCjH1wPxLmE';
-		//get verify response data
-		$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
-		$responseData = json_decode($verifyResponse);
-	
-	
-		if($responseData->success) {
+		if($responseData->success || DEBUG == true) {
 		
 			$to = vokativ($_POST['from'],$db,$rule);
 
@@ -227,7 +225,6 @@ echo "</div>";
 		- <a href="https://www.vician.cz/">Martin Vicián</a> (web, technologie)
 		<hr/>
 		Zdroj dat: <a href="http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni.aspx">MVČR</a><br/>
-		- aktualizovano k <?php echo file_get_contents("./data.html"); ?>
             </div>
           </div>
         </div>
@@ -264,7 +261,7 @@ echo "</div>";
 
 		$("#surname").on('input',(function(e) {
 <?php
-if($_POST) {
+if($_POST and DEBUG == false) {
 		echo  "$('#recaptcha').show('slow')";
 	} else {
 		echo "$('#recaptcha').css('visibility', 'visible')";

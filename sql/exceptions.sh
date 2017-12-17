@@ -1,9 +1,9 @@
 #!/bin/bash
 
-DATA="exceptions.txt"
+DATA="sql/exceptions.txt"
 separator=","
 
-DB="current.sqlite3"
+DB="data/db.sqlite3"
 
 while IFS='' read -r line || [[ -n "$line" ]]; do
 	nominativ=$(echo $line | awk -F "$separator" '{print $1}' | awk '{print toupper($0)}' )
