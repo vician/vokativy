@@ -1,6 +1,8 @@
 db=data/db.sqlite3
 data=data/data.csv
 
+default: update
+
 backup:
 	sqlite3 $(db) ".backup 'data/backup.`date +%F_%T`.sql'"
 
