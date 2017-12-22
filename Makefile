@@ -31,7 +31,7 @@ update: backup init
 	php stats.php > stats.html
 
 start:
-	php -S localhost:9002
+	php -S localhost:8102
 
 clean:
 	rm data/*
