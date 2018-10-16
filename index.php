@@ -32,9 +32,9 @@ define("DEBUG", true);
 						<div align="center">
 							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn" style="<?php if($_POST) {echo "display: none";} else {echo "visibility: hidden";} ?>;"></div>
 						</div>
+<?php } ?>
           </form>
 		</div>
-<?php } ?>
 
 
       </div> <!-- /row -->
@@ -93,9 +93,7 @@ catch (Exception $exception) {
                 echo "ERROR: ".$exception->getMessage();
 }
 if (isset($_POST['from'])) {
-	
 	echo '<div class="row"><div class="col-lg-12 text-center v-center-smaller" style="font-size:39pt;">';
-	
 	if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']) || DEBUG == true) {
 
 		if (DEBUG == false) {
@@ -104,34 +102,29 @@ if (isset($_POST['from'])) {
 			$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
 			$responseData = json_decode($verifyResponse);
 		}
-	
+
 		if($responseData->success || DEBUG == true) {
-		
 			$to = vokativ($_POST['from'],$db,$rule);
-
 			echo $to;
-	
 		} else {
-
 			echo "Robot verification failed, please try again.";
 		}
 
 	} else echo "Please click on the reCAPTCHA box.";
-	
 	echo '</div></div>';
 }
 ?>
         <!--</div>
 	</div>-->
-  	<br><br><br><br><br>
+	<br><br><br><br><br>
 
 </div> <!-- /container full -->
 
 <div id="info" class="container">
-  
-  	<hr>
-  
-  	<div class="row">
+
+	<hr>
+
+	<div class="row">
         <div class="col-md-3">
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Statistiky</h3></div>
@@ -139,7 +132,7 @@ if (isset($_POST['from'])) {
             </div>
           </div>
         </div>
-      	<div class="col-md-3">
+		<div class="col-md-3">
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Pravidla vokativů</h3></div>
             <div class="panel-body">
@@ -216,7 +209,7 @@ echo "</div>";
             </div>
           </div>
         </div>
-      	<div class="col-md-3">
+		<div class="col-md-3">
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Autoři</h3></div>
             <div class="panel-body">
@@ -228,8 +221,8 @@ echo "</div>";
             </div>
           </div>
         </div>
-      	<div class="col-md-3">
-        	<div class="panel panel-default">
+		<div class="col-md-3">
+		<div class="panel panel-default">
             <div class="panel-heading"><h3>Kontakt</h3></div>
             <div class="panel-body">
 		Pokud jste nalezli chybu, nebo chcete tuto aplikaci použít v komerční sféře, nebojte se nás kontaktovat na: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
@@ -241,7 +234,7 @@ echo "</div>";
           </div>
         </div>
     </div>
-  
+
 	<div class="row">
         <div class="col-lg-12">
         <br><br>
