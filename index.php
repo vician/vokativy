@@ -16,7 +16,11 @@
 	<body>
 <div class="container-full">
 <?php
-define("DEBUG", true);
+if($_SERVER['SERVER_NAME'] == "localhost")
+	define("DEBUG", true);
+else
+	define("DEBUG", false);
+fi
 ?>
       <div class="row">
         <div class="col-lg-12 text-center v-center">
@@ -25,12 +29,12 @@ define("DEBUG", true);
           <br><br><br>
           <form class="col-lg-12" method="post" action="" id="form">
             <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
-            <input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; ?>" oclick="$('#recaptcha').show();">
+			<input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="<?php if(isset($_POST['from'])) echo $_POST['from']; elseif(isset($_GET['surname'])) echo $_GET['surname']; ?>" oclick="$('#recaptcha').show();">
 			<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" <?php if (DEBUG == false) { ?>disabled="true" <?php } ?>onclick="redcaptcha();">OK</button></span><br/>
 			</div>
 <?php if(DEBUG == false){ ?>
 						<div align="center">
-							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn" style="<?php if($_POST) {echo "display: none";} else {echo "visibility: hidden";} ?>;"></div>
+							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn" style="<?php if($_POST) {echo "display: none";} elseif(!isset($_GET['surname'])) {echo "visibility: hidden";} ?>;"></div>
 						</div>
 <?php } ?>
           </form>
@@ -238,7 +242,7 @@ echo "</div>";
 	<div class="row">
         <div class="col-lg-12">
         <br><br>
-          <p class="pull-right"><a href="http://www.bootply.com">Template from Bootply</a> Copyright 2016 Martin Vicián</p>
+          <p class="pull-right"><a href="http://www.bootply.com">Template from Bootply</a> &copy; 2018 Martin Vicián</p>
         <br><br>
         </div>
     </div>
