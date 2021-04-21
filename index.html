@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Vokativy.cz</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+<div class="container-full">
+      <div class="row">
+        <div class="col-lg-12 text-center v-center">
+          <h1><a id="home" href="#">Vokativy.cz</a></h1>
+          <p class="lead">Jednoduchý způsob správného oslovení</p>
+          <br><br><br>
+            <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
+			<input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="">
+			<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" onclick="vocative();">OK</button></span><br/>
+			</div>
+						<!--<div align="center">
+							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn"></div>
+						</div>-->
+		</div>
+		<div class="row" id="output-row" style="display: none"><div class="col-lg-12 text-center v-center-smaller" style="font-size:39pt;" id="output">
+		</div></div>
+
+      </div> <!-- /row -->
+     <!--<div class="row">
+        <div class="col-lg-12 text-center v-center" style="font-size:39pt;">-->
+        <!--</div>
+	</div>-->
+	<br><br><br><br><br>
+
+</div> <!-- /container full -->
+
+<div id="info" class="container">
+
+	<hr>
+
+	<div class="row">
+        <div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3>Statistiky</h3></div>
+            <div class="panel-body"><?php echo file_get_contents("./stats.html"); ?>
+            </div>
+          </div>
+        </div>
+		<div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3>Pravidla vokativů</h3></div>
+            <div class="panel-body">
+            </div>
+          </div>
+        </div>
+		<div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3>Autoři</h3></div>
+            <div class="panel-body">
+		- Lucie Medová (pravidla)<br/>
+		- Klára Viciánová (pravidla)<br/>
+		- <a href="https://www.vician.cz/">Martin Vicián</a> (web, technologie)
+		<hr/>
+		Zdroj dat: <a href="http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni.aspx">MVČR</a><br/>
+            </div>
+          </div>
+        </div>
+		<div class="col-md-3">
+		<div class="panel panel-default">
+            <div class="panel-heading"><h3>Kontakt</h3></div>
+            <div class="panel-body">
+		Pokud jste nalezli chybu, nebo chcete tuto aplikaci použít v komerční sféře, nebojte se nás kontaktovat na: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
+		<hr/>
+		Projekt je ke stažení na <a href="https://gitlab.com/vician/vokativy">gitlabu</a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+	<div class="row">
+        <div class="col-lg-12">
+        <br><br>
+          <p class="pull-right"><a href="http://www.bootply.com">Template from Bootply</a> &copy; 2018 Martin Vicián</p>
+        <br><br>
+        </div>
+    </div>
+</div>
+
+
+	<!-- script references -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src='https://www.google.com/recaptcha/api.js?hl=cs'></script>
+
+<script>
+
+function write_vocative(surname,rule) {
+	console.log("=> "+surname+ "("+rule+")")
+	if (surname.search(/ová$/) != -1) {
+		female = true
+	} else {
+		female = false
+	}
+	output = "<p class='lead'>Doporučujeme oslovení:</dev>"
+	output += "<h1>Vážen"
+	if (female) {
+		output += "á paní"
+	} else {
+		output += "ý pane"
+	}
+	output += " "+surname+"</h1>"
+	$("#output-row").show();
+	$("#output").html(output);
+}
+
+var rules = {
+	// name:
+	// [ regex, replace, description, [example1, example2]]
+	'1.a':
+		[/^\w$/,'$&',
+		"Jednopísmenná příjmení beze změny.",
+		['A']],
+	'1.b':
+		[/^\w\w$/,'$&',
+		"Dvoupísmenná příjmení beze změny.",
+		['Aa']],
+	'1.c':
+		['[á|e|é|ě|i|y|í|ý|o|ó|ú|ů]$','$&',
+		"Příjmení končící na á, e, é, ě, i, í, ý, ó, ú, ů, o nebo y beze změny.",
+		['Suchý','Nováková','Marko']],
+	'2.a':
+		[/(\w)a$/,'$1o',['Jana']],
+	'3.a':
+		[/\w[ž|š|č|ř|s|j|z]$/,'$&i',['Faj']],
+	'4.a':
+		[/(\w)ď$/,'$1di',['Prď']],
+	'4.b':
+		[/(\w)ť$/,'$1ti',['Prť']],
+	'4.c':
+		[/(\w)ň$/,'$1ni',['Frň']],
+	'5.a':
+		[/\w[b|d|f|m|p|q|r|t]$/,'$&e',['Dub']],
+	'5.b':
+		[/\w[^ě]n$/,'$&e',['Bon']],
+	'5.c':
+		[/\w[^ě|e]l$/,'$&e',['Bol']],
+	'5.d':
+		[/\w[^c]h$/,'$&e',['Hloh']],
+	'5.e':
+		[/\w[^a]v$/,'$&e',['Kov']],
+	'6.a':
+		[/\w[^ě|e]k$/,'$&u',['Bok']],
+	'6.b':
+		[/\wg$/,'$&u',['Bog']],
+	'6.c':
+		[/\wch$/,'$&u',['Duch']],
+	'7.a':
+		[/ek$/,'ku',['Kožíšek']],
+	'8.a':
+		[/děk$/,'ďku',['Dědek']],
+	'8.b':
+		[/těk$/,'ťku',['Frtěk']],
+	'8.c':
+		[/něk$/,'ňku',['Puněk']],
+	'9.a':
+		[/ec$/,'če',['Němec']],
+
+}
+
+function vocative() {
+	surname = $("#surname").val().normalize();
+	console.log(surname.length)
+	//console.log(surname.normalize().length)
+	//surname = "Voříšek".normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+	console.log("Computing vocative for: ", surname);
+
+	for (var key in rules){
+		if (surname.search(rules[key][0]) != -1) {
+			console.log("matches",key,rules[key])
+			write_vocative(surname.replace(rules[key][0],rules[key][1]),key)
+		}
+	}
+	console.log("Rule not found!")
+}
+
+	/*
+$("#surname").on('input',(function(e) {
+	$('#recaptcha').show('slow');
+}));
+
+
+function enableBtn() {
+	if(grecaptcha.getResponse()){
+		$("#submit").prop('disabled', false);
+	}
+}
+
+$("#submit").submit(function(e) {
+	alert('dont!');
+	$('#recaptcha').css('border-color','red');
+});
+   */
+
+</script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-73656343-3', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+
+	</body>
+</html>
