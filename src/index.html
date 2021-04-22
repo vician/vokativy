@@ -139,7 +139,7 @@ var rules = {
 		['Aa']],
 	'1.c':
 		['[á|e|é|ě|i|y|í|ý|o|ó|ú|ů]$','$&',
-		'a příjmení končící na á, e, é, ě, i, í, ý, ó, ú, ů, o nebo y.',
+		'a příjmení končící na písmena Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O nebo Y.',
 		['Suchý','Nováková','Marko']],
 	'2.a':
 		[/(\w)a$/,'$1o','příjmení končící na písmeno A.',['Jana']],
@@ -154,31 +154,31 @@ var rules = {
 	'4.d':
 		[/\w[^e]c$/,'$1?i','příjmení končící na písmeno C, ale předposlední není E.',['']],
 	'5.a':
-		[/\w[b|d|f|m|p|q|r|t]$/,'$&e','',['Dub']],
+		[/\w[b|d|f|m|p|q|r|t]$/,'$&e','příjmení končící na písmena B, D, F, M, P, Q, R nebo T,',['Dub']],
 	'5.b':
-		[/\w[^ě]n$/,'$&e','',['Bon']],
+		[/\w[^ě]n$/,'$&e','příjmení končící na písmeno N, ale předposlední není Ě,',['Bon']],
 	'5.c':
-		[/\w[^ě|e]l$/,'$&e','',['Bol']],
+		[/\w[^ě|e]l$/,'$&e','příjmení končící na písmeno L, ale předposlední není E nebo Ě,',['Bol']],
 	'5.d':
-		[/\w[^c]h$/,'$&e','',['Hloh']],
+		[/\w[^c]h$/,'$&e','příjmení končící na písmeno H, ale předposlední není C,',['Hloh']],
 	'5.e':
-		[/\w[^a]v$/,'$&e','',['Kov']],
+		[/\w[^a]v$/,'$&e','a příjmení končící na písmeno V, ale předposlední není A.',['Kov']],
 	'6.a':
-		[/\w[^ě|e]k$/,'$&u','',['Bok']],
+		[/\w[^ě|e]k$/,'$&u','příjmení končící na písmeno K, ale předposlední není E nebo Ě,',['Bok']],
 	'6.b':
-		[/\wg$/,'$&u','',['Bog']],
+		[/\wg$/,'$&u','příjmení končící na písmeno G,',['Bog']],
 	'6.c':
-		[/\wch$/,'$&u','',['Duch']],
+		[/\wch$/,'$&u','a příjmení končící na písmeno CH.',['Duch']],
 	'7.a':
-		[/ek$/,'ku','',['Kožíšek']],
+		[/ek$/,'ku','příjmení končící na písmena EK.',['Kožíšek']],
 	'8.a':
-		[/děk$/,'ďku','',['Dědek']],
+		[/děk$/,'ďku','příjmení končící na písmena DĚK,',['Dědek']],
 	'8.b':
-		[/těk$/,'ťku','',['Frtěk']],
+		[/těk$/,'ťku','příjmení končící na písmena TĚK,',['Frtěk']],
 	'8.c':
-		[/něk$/,'ňku','',['Puněk']],
+		[/něk$/,'ňku','a příjmení končící na písmena NĚK',['Puněk']],
 	'9.a':
-		[/ec$/,'če','',['Němec']],
+		[/ec$/,'če','příjmení končící na písmena EC.',['Němec']],
 }
 
 var rules_major = {
