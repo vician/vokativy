@@ -20,10 +20,12 @@
           <h1><a id="home" href="#">Vokativy.cz</a></h1>
           <p class="lead">Jednoduchý způsob správného oslovení</p>
           <br><br><br>
+						<form action="javascript:vocative();">
             <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
-			<input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="">
-			<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" onclick="vocative();">OK</button></span><br/>
-			</div>
+							<input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="">
+							<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" onclick="vocative();">OK</button></span><br/>
+						</div>
+						</form>
 						<!--<div align="center">
 							<div id="recaptcha" class="g-recaptcha" data-sitekey="6LftwyQTAAAAAAasKfTmEqwEc0cHYKBnH367_Gp4"  data-callback="enableBtn"></div>
 						</div>-->
@@ -45,33 +47,36 @@
 	<hr>
 
 	<div class="row">
-        <div class="col-md-3">
-          <div class="panel panel-default">
-            <div class="panel-heading"><h3>Statistiky</h3></div>
-            <div class="panel-body"><?php echo file_get_contents("./stats.html"); ?>
-            </div>
-          </div>
-        </div>
-		<div class="col-md-3">
+		<div class="col-md-8">
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Pravidla vokativů</h3></div>
-            <div class="panel-body">
+            <div class="panel-body" id="rules">
             </div>
           </div>
         </div>
-		<div class="col-md-3">
+		<div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3>Užití</h3></div>
+            <div class="panel-body">
+							Pouze k osobnímu použití. Za chybný vokativ neručíme.
+            </div>
+          </div>
+        </div>
+		<div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Autoři</h3></div>
             <div class="panel-body">
-		- Lucie Medová (pravidla)<br/>
-		- Klára Viciánová (pravidla)<br/>
-		- <a href="https://www.vician.cz/">Martin Vicián</a> (web, technologie)
-		<hr/>
-		Zdroj dat: <a href="http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni.aspx">MVČR</a><br/>
+							<ul>
+								<li>Lucie Medová (pravidla)</li>
+								<li>Klára Viciánová (pravidla)</li>
+								<li><a href="https://www.vician.cz/">Martin Vicián</a> (web, technologie)</li>
+							</ul>
+							<!--<hr/>
+							Zdroj dat: <a href="http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni.aspx">MVČR</a><br/>-->
             </div>
           </div>
         </div>
-		<div class="col-md-3">
+		<div class="col-md-4">
 		<div class="panel panel-default">
             <div class="panel-heading"><h3>Kontakt</h3></div>
             <div class="panel-body">
@@ -115,8 +120,10 @@ function write_vocative(surname,rule) {
 		output += "ý pane"
 	}
 	output += " "+surname+"</h1>"
+	output += "<p class='lead'><a href='#"+rule.replace('.',"-")+"'>(Pravidlo "+rule+")</a></p>"
 	$("#output-row").show();
 	$("#output").html(output);
+	$("#"+rule.replace(".","-")).css("font-weight","bold");
 }
 
 var rules = {
@@ -124,53 +131,70 @@ var rules = {
 	// [ regex, replace, description, [example1, example2]]
 	'1.a':
 		[/^\w$/,'$&',
-		"Jednopísmenná příjmení beze změny.",
+		'jednopísmenná příjmení,',
 		['A']],
 	'1.b':
 		[/^\w\w$/,'$&',
-		"Dvoupísmenná příjmení beze změny.",
+		'dvoupísmenná příjmení,',
 		['Aa']],
 	'1.c':
 		['[á|e|é|ě|i|y|í|ý|o|ó|ú|ů]$','$&',
-		"Příjmení končící na á, e, é, ě, i, í, ý, ó, ú, ů, o nebo y beze změny.",
+		'a příjmení končící na á, e, é, ě, i, í, ý, ó, ú, ů, o nebo y.',
 		['Suchý','Nováková','Marko']],
 	'2.a':
-		[/(\w)a$/,'$1o',['Jana']],
+		[/(\w)a$/,'$1o','příjmení končící na písmeno A.',['Jana']],
 	'3.a':
-		[/\w[ž|š|č|ř|s|j|z]$/,'$&i',['Faj']],
+		[/\w[ž|š|č|ř|s|j|z]$/,'$&i','příjmení končící na písmena Ž, Š, Č, Ř, S, J nebo Z',['Faj']],
 	'4.a':
-		[/(\w)ď$/,'$1di',['Prď']],
+		[/(\w)ď$/,'$1di','příjmení končící na písmena Ď,',['Prď']],
 	'4.b':
-		[/(\w)ť$/,'$1ti',['Prť']],
+		[/(\w)ť$/,'$1ti','příjmení končící na písmena Ť,',['Prť']],
 	'4.c':
-		[/(\w)ň$/,'$1ni',['Frň']],
+		[/(\w)ň$/,'$1ni','a příjmení končící na písmena Ň.',['Frň']],
+	'4.d':
+		[/\w[^e]c$/,'$1?i','příjmení končící na písmeno C, ale předposlední není E.',['']],
 	'5.a':
-		[/\w[b|d|f|m|p|q|r|t]$/,'$&e',['Dub']],
+		[/\w[b|d|f|m|p|q|r|t]$/,'$&e','',['Dub']],
 	'5.b':
-		[/\w[^ě]n$/,'$&e',['Bon']],
+		[/\w[^ě]n$/,'$&e','',['Bon']],
 	'5.c':
-		[/\w[^ě|e]l$/,'$&e',['Bol']],
+		[/\w[^ě|e]l$/,'$&e','',['Bol']],
 	'5.d':
-		[/\w[^c]h$/,'$&e',['Hloh']],
+		[/\w[^c]h$/,'$&e','',['Hloh']],
 	'5.e':
-		[/\w[^a]v$/,'$&e',['Kov']],
+		[/\w[^a]v$/,'$&e','',['Kov']],
 	'6.a':
-		[/\w[^ě|e]k$/,'$&u',['Bok']],
+		[/\w[^ě|e]k$/,'$&u','',['Bok']],
 	'6.b':
-		[/\wg$/,'$&u',['Bog']],
+		[/\wg$/,'$&u','',['Bog']],
 	'6.c':
-		[/\wch$/,'$&u',['Duch']],
+		[/\wch$/,'$&u','',['Duch']],
 	'7.a':
-		[/ek$/,'ku',['Kožíšek']],
+		[/ek$/,'ku','',['Kožíšek']],
 	'8.a':
-		[/děk$/,'ďku',['Dědek']],
+		[/děk$/,'ďku','',['Dědek']],
 	'8.b':
-		[/těk$/,'ťku',['Frtěk']],
+		[/těk$/,'ťku','',['Frtěk']],
 	'8.c':
-		[/něk$/,'ňku',['Puněk']],
+		[/něk$/,'ňku','',['Puněk']],
 	'9.a':
-		[/ec$/,'če',['Němec']],
+		[/ec$/,'če','',['Němec']],
+}
 
+var rules_major = {
+	"1": "Beze změny",
+	"2": "Změna posledního písmene na písmeno O",
+	"3": "Přidání písmene I",
+	"4": "Přidání písmene I a změkčení předposlendího písmene",
+	"5": "Přidání písmene E",
+	"6": "Přidání písmene U",
+	"7": "Přidání písmene U a odebrání předposledního písmene",
+	"8": "Přidání písmene U, odebrání předposledního písmene a změkčení předpředposledního písmene",
+	"9": "Přidání písmene E, změkčení poslendího a odebrání předposledního",
+}
+
+function vocatives() {
+	surnames = $("#surname").val().normalize();
 }
 
 function vocative() {
@@ -182,30 +206,35 @@ function vocative() {
 
 	for (var key in rules){
 		if (surname.search(rules[key][0]) != -1) {
-			console.log("matches",key,rules[key])
-			write_vocative(surname.replace(rules[key][0],rules[key][1]),key)
+			console.log("matches",key,rules[key]);
+			write_vocative(surname.replace(rules[key][0],rules[key][1]),key);
+			return;
 		}
 	}
 	console.log("Rule not found!")
 }
 
-	/*
-$("#surname").on('input',(function(e) {
-	$('#recaptcha').show('slow');
-}));
-
-
-function enableBtn() {
-	if(grecaptcha.getResponse()){
-		$("#submit").prop('disabled', false);
+function print_rules() {
+	var output = '';
+	output += '<ul>';
+	var last_major = "0";
+	for (var key in rules) {
+		var major = key.split(".")[0];
+		var minor = key.split(".")[1];
+		if (major != last_major) {
+			if(last_major != "0") {
+				output += "</li></ul>";
+			}
+			output += '<li id="'+major+'">'+major+'. '+rules_major[major]+':<ul>';
+		}
+		output += '<li id="'+key.replace(".","-")+'">'+minor+'. '+rules[key][2]+'</li>';
+		last_major = major;
 	}
+	output += '</ul>';
+	$("#rules").html(output);
 }
 
-$("#submit").submit(function(e) {
-	alert('dont!');
-	$('#recaptcha').css('border-color','red');
-});
-   */
+print_rules();
 
 </script>
 	<script>
