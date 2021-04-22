@@ -1,0 +1,39 @@
+image: docker:git
+services:
+- docker:dind
+
+variables:
+  CONTAINER_PATH: registry.gitlab.com/vician/vokativy
+  CONTAINER_TEST_IMAGE: $CONTAINER_PATH:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: $CONTAINER_PATH:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+build:
+  stage: build
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+release:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
+
+
+stages:
+  #  - test
+  - build
+  - release
+
+    #test:
+    #  image: registry.gitlab.com/vician/dockerhub/linkchecker
+    #  before_script: []
+    #  stage: test
+    #  script:
+    #    - linkchecker src/
