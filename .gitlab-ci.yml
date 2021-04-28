@@ -10,6 +10,16 @@ variables:
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
 
+prepare:
+  image: alpine
+  before_script: []
+  stage: prepare
+  script:
+    - sed -i "s/&copy;/\&copy; $(date +%Y)/g" src/index.html
+  artifacts:
+    paths:
+      - src/index.html
+
 build:
   stage: build
   script:
@@ -27,6 +37,7 @@ release:
 
 
 stages:
+  - prepare
   #  - test
   - build
   - release
