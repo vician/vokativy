@@ -3,16 +3,17 @@ html,body {
 }
 
 h1 {
-  font-family: Arial,sans-serif
-  font-size:80px;
-  color:#DDCCEE;
+  font-family: Arial, sans-serif;
+  font-size: 80px;
+  color: #DDCCEE;
 }
 h1 a#home {
-  color:#DDCCEE;
+  color: #DDCCEE;
 }
 
-h1 #home a:hover {
-  color:#DDCCEE;
+h1 a#home:hover,
+a#home:hover {
+  color: #DDCCEE;
 }
 
 .lead {
@@ -51,8 +52,15 @@ ol ol {
   list-style-type: lower-alpha;
 }
 
-a{
-	cursor: hand;
-	cursor: pointer
+a {
+	cursor: pointer;
 }
+
+.rule-highlight {
+  font-weight: bold;
+  background-color: #f0e6fa;
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+
 

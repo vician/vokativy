@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
@@ -17,10 +17,10 @@
           <h1><a id="home" href="#">Vokativy.cz</a></h1>
           <p class="lead">Jednoduchý způsob správného oslovení</p>
           <br><br><br>
-						<form action="javascript:vocative();">
+						<form onsubmit="vocative(); return false;">
             <div class="input-group" style="width:360px;text-align:center;margin:0 auto;">
-							<input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="">
-							<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit" onclick="vocative();">OK</button></span><br/>
+							<input id="surname" class="form-control input-lg" title="" placeholder="Zde napište dotazované příjmení" type="text" name="from" value="" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
+							<span class="input-group-btn"><button id="submit" class="btn btn-lg btn-primary" type="submit">OK</button></span><br/>
 						</div>
 						</form>
 		</div>
@@ -55,8 +55,6 @@
 							Pouze k osobnímu použití. Za chybný vokativ neručíme.
             </div>
           </div>
-        </div>
-		<div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading"><h3>Autoři</h3></div>
             <div class="panel-body">
@@ -69,9 +67,7 @@
 							Zdroj dat: <a href="http://www.mvcr.cz/clanek/cetnost-jmen-a-prijmeni.aspx">MVČR</a><br/>-->
             </div>
           </div>
-        </div>
-		<div class="col-md-4">
-		<div class="panel panel-default">
+          <div class="panel panel-default">
             <div class="panel-heading"><h3>Kontakt</h3></div>
             <div class="panel-body">
 		Pokud jste nalezli chybu, nebo chcete tuto aplikaci použít v komerční sféře, nebojte se nás kontaktovat na: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;">&#105;&#110;&#102;&#111;&#64;&#118;&#111;&#107;&#97;&#116;&#105;&#118;&#121;&#46;&#99;&#122;</a><br/>
@@ -99,24 +95,15 @@
 <script>
 
 function write_vocative(surname,rule) {
-	console.log("=> "+surname+ "("+rule+")")
-	if (surname.search(/(ová|á)$/i) != -1) {
-		female = true
-	} else {
-		female = false
-	}
-	output = "<p class='lead'>Doporučujeme oslovení:</p>"
-	output += "<h1>Vážen"
-	if (female) {
-		output += "á paní"
-	} else {
-		output += "ý pane"
-	}
-	output += " "+surname+"</h1>"
-	output += "<p class='lead'><a href='#"+rule.replace('.',"-")+"'>(Pravidlo "+rule+")</a></p>"
+	console.log("=> "+surname+ " ("+rule+")");
+	var female = surname.search(/(ová|á)$/i) !== -1;
+	var output = "<p class='lead'>Doporučujeme oslovení:</p>";
+	output += "<h1>Vážen" + (female ? "á paní" : "ý pane") + " " + surname + "</h1>";
+	output += "<p class='lead'><a href='#"+rule.replace('.',"-")+"'>(Pravidlo "+rule+")</a></p>";
 	$("#output-row").show();
 	$("#output").html(output);
-	$("#"+rule.replace(".","-")).css("font-weight","bold");
+	$("#rules li").removeClass("rule-highlight");
+	$("#"+rule.replace(".","-")).addClass("rule-highlight");
 }
 
 var rules = {
@@ -202,16 +189,16 @@ var rules_major = {
 	"11": "Změna koncovky EL na LE",
 }
 
-function vocatives() {
-	surnames = $("#surname").val().trim().normalize();
-}
-
 function vocative() {
-	surname = $("#surname").val().trim().normalize();
-	console.log(surname.length)
-	//console.log(surname.normalize().length)
-	//surname = "Voříšek".normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+	var surname = $("#surname").val().trim().normalize();
 	console.log("Computing vocative for: ", surname);
+
+	if (!surname) {
+		$("#output-row").show();
+		$("#output").html("<p class='lead' style='font-size:22pt;'>Zadejte prosím příjmení k oslovení.</p>");
+		$("#rules li").removeClass("rule-highlight");
+		return;
+	}
 
 	for (var key in rules){
 		if (surname.search(rules[key][0]) != -1) {
@@ -222,24 +209,27 @@ function vocative() {
 	}
 	console.log("Rule not found!");
 	$("#output-row").show();
-	$("#output").html("<p class='lead'>Pro zadané příjmení nebylo nalezeno vhodné pravidlo.</p>");
+	$("#output").html("<p class='lead' style='font-size:22pt;'>Pro zadané příjmení nebylo nalezeno vhodné pravidlo.</p>");
+	$("#rules li").removeClass("rule-highlight");
 }
 
 function print_rules() {
-	var output = '';
-	output += '<ul>';
+	var output = '<ul class="list-unstyled">';
 	var last_major = "0";
 	for (var key in rules) {
 		var major = key.split(".")[0];
 		var minor = key.split(".")[1];
 		if (major != last_major) {
-			if(last_major != "0") {
-				output += "</li></ul>";
+			if (last_major != "0") {
+				output += "</ul></li>";
 			}
-			output += '<li id="'+major+'">'+major+'. '+rules_major[major]+':<ul>';
+			output += '<li id="'+major+'" style="margin-top:10px;"><strong>'+major+'. '+rules_major[major]+':</strong><ul>';
 		}
 		output += '<li id="'+key.replace(".","-")+'">'+minor+'. '+rules[key][2]+'</li>';
 		last_major = major;
+	}
+	if (last_major != "0") {
+		output += "</ul></li>";
 	}
 	output += '</ul>';
 	$("#rules").html(output);
