@@ -135,7 +135,7 @@ var rules = {
 		'a příjmení končící na písmena Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O nebo Y.',
 		['Suchý','Nováková','Marko']],
 	'2.a':
-		[/a$/i,'o','příjmení končící na písmeno A.',['Svoboda','Jana']],
+		[/a$/i,'o','příjmení končící na písmeno A.',['Svoboda','Kučera']],
 	'3.a':
 		[/[žščřsjzx]$/i,'$&i','příjmení končící na písmena Ž, Š, Č, Ř, S, J, Z nebo X,',['Beneš','Kovář','Faj','Felix','Max']],
 	'3.b':
@@ -143,7 +143,7 @@ var rules = {
 	'3.c':
 		[/(iel|cel|uel|děl|tel|žel)$/i,'$&i','příjmení končící na IEL, CEL, UEL, DĚL, TEL nebo ŽEL,',['Daniel','Gabriel','Anděl','Učitel']],
 	'3.d':
-		[/(^[^aeiouyáéíóúůýě]*ec|[dt]lec)$/i,'$&i','a jednoslabičná příjmení na EC nebo končící na DLEC a TLEC.',['Švec','Klec','Tkadlec','Kadlec']],
+		[/(^[šs]vec|^[kK]lec|^[pP]ec|[dt]lec)$/i,'$&i','a příjmení Švec, Klec, Pec nebo končící na DLEC a TLEC.',['Švec','Klec','Tkadlec','Kadlec']],
 	'4.a':
 		[/ď$/i,'di','příjmení končící na písmena Ď,',['Prď']],
 	'4.b':
@@ -181,9 +181,9 @@ var rules = {
 	'8.c':
 		[/něk$/i,'ňku','a příjmení končící na písmena NĚK.',['Vaněk','Daněk','Puněk']],
 	'9.a':
-		[/ec$/i,'če','příjmení končící na písmena EC.',['Němec','Moravec','Samec']],
+		[/ec$/i,'če','příjmení končící na písmena EC.',['Němec','Moravec','Samec','Srnec']],
 	'10.a':
-		[/([bcdfgkpstvz])r$/i,'$1ře','příjmení končící na souhlásku a R (změna R na Ř a přidání E).',['Petr','Kapr','Vintr']],
+		[/([^aeiouyáéíóúůýě])r$/i,'$1ře','příjmení končící na souhlásku a R (změna R na Ř a přidání E).',['Petr','Kapr','Vintr','Hamr','Vichr']],
 	'11.a':
 		[/([bdfghkmnprstvz])el$/i,'$1le','příjmení končící na souhlásku a EL (změna EL na LE).',['Karel','Pavel','Havel','Vesel']],
 }
