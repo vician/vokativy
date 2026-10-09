@@ -96,177 +96,153 @@
 
 <script>
 
-var i18n = {
-  cs: {
-    lead: "Jednoduchý způsob správného oslovení",
-    placeholder: "Zde napište dotazované příjmení",
-    salutation_intro: "Doporučujeme oslovení:",
-    dear_male: "Vážený pane",
-    dear_female: "Vážená paní",
-    dear_male_trans: "",
-    dear_female_trans: "",
-    rule_label: "Pravidlo",
-    empty_input: "Zadejte prosím příjmení k oslovení.",
-    not_found: "Pro zadané příjmení nebylo nalezeno vhodné pravidlo.",
-    rules_heading: "Pravidla vokativů",
-    usage_heading: "Užití",
-    usage_body: "Pouze k osobnímu použití. Za chybný vokativ neručíme.",
-    authors_heading: "Autoři",
-    author_medova: "Lucie Medová (pravidla)",
-    author_vicianova: "Klára Viciánová (pravidla)",
-    author_vician: "Martin Vicián (web, technologie)",
-    contact_heading: "Kontakt",
-    contact_body: "Pokud jste nalezli chybu, nebo chcete tuto aplikaci použít v komerční sféře, nebojte se nás kontaktovat na:",
-    github_link: "Projekt je ke stažení na GitHubu"
-  },
-  en: {
-    lead: "A simple guide to proper Czech vocative greetings",
-    placeholder: "Enter a Czech surname here",
-    salutation_intro: "Recommended Czech greeting:",
-    dear_male: "Vážený pane",
-    dear_female: "Vážená paní",
-    dear_male_trans: "(Formal masculine: Dear Mr. Surname)",
-    dear_female_trans: "(Formal feminine: Dear Ms. Surname)",
-    rule_label: "Rule",
-    empty_input: "Please enter a surname to address.",
-    not_found: "No matching vocative rule found for this surname.",
-    rules_heading: "Vocative Case Rules",
-    usage_heading: "Usage & Terms",
-    usage_body: "For personal use only. We are not liable for any grammatical errors.",
-    authors_heading: "Authors",
-    author_medova: "Lucie Medová (grammar rules)",
-    author_vicianova: "Klára Viciánová (grammar rules)",
-    author_vician: "Martin Vicián (web, technology)",
-    contact_heading: "Contact",
-    contact_body: "If you found an error or want to use this tool commercially, feel free to contact us at:",
-    github_link: "Source code available on GitLab"
-  }
+var rules = {
+	// name:
+	// [ regex, replace, description, [example1, example2]]
+	'1.a':
+		[/^.$/u,'$&',
+		'jednopísmenná příjmení,',
+		['A']],
+	'1.b':
+		[/^..$/u,'$&',
+		'dvoupísmenná příjmení,',
+		['Aa']],
+	'1.c':
+		[/[áeéěiyíýoóúů]$/i,'$&',
+		'a příjmení končící na písmena Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O nebo Y.',
+		['Suchý','Nováková','Marko']],
+	'2.a':
+		[/a$/i,'o','příjmení končící na písmeno A.',['Svoboda','Kučera']],
+	'3.a':
+		[/[žščřsjzx]$/i,'$&i','příjmení končící na písmena Ž, Š, Č, Ř, S, J, Z nebo X,',['Beneš','Kovář','Faj','Felix','Max']],
+	'3.b':
+		[/král$/i,'$&i','příjmení Král,',['Král']],
+	'3.c':
+		[/(iel|cel|uel|děl|tel|žel)$/i,'$&i','příjmení končící na IEL, CEL, UEL, DĚL, TEL nebo ŽEL,',['Daniel','Gabriel','Anděl','Učitel']],
+	'3.d':
+		[/(^[šs]vec|^[kK]lec|^[pP]ec|[dt]lec)$/i,'$&i','a příjmení Švec, Klec, Pec nebo končící na DLEC a TLEC.',['Švec','Klec','Tkadlec','Kadlec']],
+	'4.a':
+		[/ď$/i,'di','příjmení končící na písmena Ď,',['Prď']],
+	'4.b':
+		[/ť$/i,'ti','příjmení končící na písmena Ť,',['Prť']],
+	'4.c':
+		[/ň$/i,'ni','příjmení končící na písmena Ň,',['Frň']],
+	'4.d':
+		[/[^e]c$/i,'$&i','a příjmení končící na písmeno C, ale předposlední není E.',['Zajíc', 'Princ']],
+	'5.a':
+		[/[bdfmpqt]$/i,'$&e','příjmení končící na písmena B, D, F, M, P, Q nebo T,',['Dub','Kotvald']],
+	'5.b':
+		[/[aeiouyáéíóúůý]r$/i,'$&e','příjmení končící na písmeno R po samohlásce,',['Fišer','Kocour']],
+	'5.c':
+		[/n$/i,'$&e','příjmení končící na písmeno N,',['Zeman','Urban','Křen']],
+	'5.d':
+		[/[^e]l$/i,'$&e','příjmení končící na písmeno L (mimo koncovku EL),',['Pospíšil','Doležal','Navrátil','Michal']],
+	'5.e':
+		[/v$/i,'$&e','a příjmení končící na písmeno V.',['Václav','Gustav','Kov']],
+	'6.a':
+		[/^[^aeiouyáéíóúůýě]*[eě]k$/i,'$&u','jednoslabičná příjmení končící na EK nebo ĚK,',['Řek','Šrek','Věk']],
+	'6.b':
+		[/[^ěe]k$/i,'$&u','příjmení končící na písmeno K, ale předposlední není E nebo Ě,',['Novák','Bok']],
+	'6.c':
+		[/g$/i,'$&u','příjmení končící na písmeno G,',['Bog']],
+	'6.d':
+		[/ch$/i,'$&u','příjmení končící na písmena CH,',['Čech','Duch']],
+	'6.e':
+		[/[^c]h$/i,'$&u','a příjmení končící na písmeno H (ale ne CH).',['Hloh','Blah']],
+	'7.a':
+		[/ek$/i,'ku','příjmení končící na písmena EK.',['Kožíšek','Marek','Hájek','Dědek']],
+	'8.a':
+		[/děk$/i,'ďku','příjmení končící na písmena DĚK,',['Mladěk']],
+	'8.b':
+		[/těk$/i,'ťku','příjmení končící na písmena TĚK,',['Vojtěk','Frtěk']],
+	'8.c':
+		[/něk$/i,'ňku','a příjmení končící na písmena NĚK.',['Vaněk','Daněk','Puněk']],
+	'9.a':
+		[/ec$/i,'če','příjmení končící na písmena EC.',['Němec','Moravec','Samec','Srnec']],
+	'10.a':
+		[/([^aeiouyáéíóúůýě])r$/i,'$1ře','příjmení končící na souhlásku a R (změna R na Ř a přidání E).',['Petr','Kapr','Vintr','Hamr','Vichr']],
+	'11.a':
+		[/([bdfghkmnprstvz])el$/i,'$1le','příjmení končící na souhlásku a EL (změna EL na LE).',['Karel','Pavel','Havel','Vesel']],
 };
 
 var rules_major = {
-  cs: {
-    "1": "Beze změny",
-    "2": "Změna posledního písmene na písmeno O",
-    "3": "Přidání písmene I",
-    "4": "Přidání písmene I a změkčení předposledního písmene",
-    "5": "Přidání písmene E",
-    "6": "Přidání písmene U",
-    "7": "Přidání písmene U a odebrání předposledního písmene",
-    "8": "Přidání písmene U, odebrání předposledního písmene a změkčení předpředposledního písmene",
-    "9": "Přidání písmene E, změkčení posledního a odebrání předposledního",
-    "10": "Přidání písmene E a změna R na Ř",
-    "11": "Změna koncovky EL na LE",
-  },
-  en: {
-    "1": "No change (identical to nominative)",
-    "2": "Change final letter to -O",
-    "3": "Add ending -I (soft consonants)",
-    "4": "Add ending -I with softening of preceding consonant",
-    "5": "Add ending -E",
-    "6": "Add ending -U (hard velar consonants)",
-    "7": "Add ending -U and drop penultimate vowel (mobile -e-)",
-    "8": "Add ending -U, drop penultimate vowel, and soften consonant (d/t/n -> ď/ť/ň)",
-    "9": "Change -EC to -ČE (palatalization with dropped vowel)",
-    "10": "Change consonant + R to -ŘE",
-    "11": "Change consonant + EL to -LE (dropped vowel + vocative -e)",
-  }
+	"1": "Beze změny",
+	"2": "Změna posledního písmene na písmeno O",
+	"3": "Přidání písmene I",
+	"4": "Přidání písmene I a změkčení předposledního písmene",
+	"5": "Přidání písmene E",
+	"6": "Přidání písmene U",
+	"7": "Přidání písmene U a odebrání předposledního písmene",
+	"8": "Přidání písmene U, odebrání předposledního písmene a změkčení předpředposledního písmene",
+	"9": "Přidání písmene E, změkčení posledního a odebrání předposledního",
+	"10": "Přidání písmene E a změna R na Ř",
+	"11": "Změna koncovky EL na LE",
 };
 
-var rule_desc = {
-  cs: {
-    '1.a': 'jednopísmenná příjmení,',
-    '1.b': 'dvoupísmenná příjmení,',
-    '1.c': 'a příjmení končící na písmena Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O nebo Y.',
-    '2.a': 'příjmení končící na písmeno A.',
-    '3.a': 'příjmení končící na písmena Ž, Š, Č, Ř, S, J, Z nebo X,',
-    '3.b': 'příjmení Král,',
-    '3.c': 'příjmení končící na IEL, CEL, UEL, DĚL, TEL nebo ŽEL,',
-    '3.d': 'a příjmení Švec, Klec, Pec nebo končící na DLEC a TLEC.',
-    '4.a': 'příjmení končící na písmena Ď,',
-    '4.b': 'příjmení končící na písmena Ť,',
-    '4.c': 'příjmení končící na písmena Ň,',
-    '4.d': 'a příjmení končící na písmeno C, ale předposlední není E.',
-    '5.a': 'příjmení končící na písmena B, D, F, M, P, Q nebo T,',
-    '5.b': 'příjmení končící na písmeno R po samohlásce,',
-    '5.c': 'příjmení končící na písmeno N,',
-    '5.d': 'příjmení končící na písmeno L (mimo koncovku EL),',
-    '5.e': 'a příjmení končící na písmeno V.',
-    '6.a': 'jednoslabičná příjmení končící na EK nebo ĚK,',
-    '6.b': 'příjmení končící na písmeno K, ale předposlední není E nebo Ě,',
-    '6.c': 'příjmení končící na písmeno G,',
-    '6.d': 'příjmení končící na písmena CH,',
-    '6.e': 'a příjmení končící na písmeno H (ale ne CH).',
-    '7.a': 'příjmení končící na písmena EK.',
-    '8.a': 'příjmení končící na písmena DĚK,',
-    '8.b': 'příjmení končící na písmena TĚK,',
-    '8.c': 'a příjmení končící na písmena NĚK.',
-    '9.a': 'příjmení končící na písmena EC.',
-    '10.a': 'příjmení končící na souhlásku a R (změna R na Ř a přidání E).',
-    '11.a': 'příjmení končící na souhlásku a EL (změna EL na LE).',
-  },
-  en: {
-    '1.a': 'single-letter surnames,',
-    '1.b': 'two-letter surnames,',
-    '1.c': 'surnames ending in vowels Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O, or Y.',
-    '2.a': 'masculine surnames ending in -A (e.g. Svoboda -> Svobodo).',
-    '3.a': 'surnames ending in soft consonants Ž, Š, Č, Ř, S, J, Z, or X,',
-    '3.b': 'the surname Král (takes soft -i: Králi),',
-    '3.c': 'surnames ending in -IEL, -CEL, -UEL, -DĚL, -TEL, or -ŽEL,',
-    '3.d': 'surnames Švec, Klec, Pec, and stems ending in -DLEC or -TLEC.',
-    '4.a': 'surnames ending in Ď (ď -> di),',
-    '4.b': 'surnames ending in Ť (ť -> ti),',
-    '4.c': 'surnames ending in Ň (ň -> ni),',
-    '4.d': 'surnames ending in -C where the penultimate letter is not E.',
-    '5.a': 'surnames ending in consonants B, D, F, M, P, Q, or T,',
-    '5.b': 'surnames ending in R preceded by a vowel (e.g. Fišer -> Fišere),',
-    '5.c': 'surnames ending in N (e.g. Zeman -> Zemane, Křen -> Křene),',
-    '5.d': 'surnames ending in L (excluding -EL endings),',
-    '5.e': 'surnames ending in V (e.g. Václav -> Václave, Kov -> Kove).',
-    '6.a': 'monosyllabic surnames ending in -EK or -ĚK (root vowel preserved, e.g. Řek -> Řeku),',
-    '6.b': 'surnames ending in -K where the penultimate letter is not E or Ě,',
-    '6.c': 'surnames ending in -G,',
-    '6.d': 'surnames ending in -CH,',
-    '6.e': 'surnames ending in -H (excluding -CH).',
-    '7.a': 'multi-syllable surnames ending in -EK (vowel -e- drops, e.g. Marek -> Marku).',
-    '8.a': 'surnames ending in -DĚK (d softens to ď, e.g. Mladěk -> Mlaďku),',
-    '8.b': 'surnames ending in -TĚK (t softens to ť, e.g. Vojtěk -> Vojťku),',
-    '8.c': 'surnames ending in -NĚK (n softens to ň, e.g. Vaněk -> Vaňku).',
-    '9.a': 'surnames ending in -EC with vowel loss (e.g. Němec -> Němče, Moravec -> Moravče).',
-    '10.a': 'surnames ending in consonant + R (R palatalizes to Ř: Petr -> Petře, Kapr -> Kapře).',
-    '11.a': 'surnames ending in consonant + EL (vowel -e- drops: Karel -> Karle, Pavel -> Pavle).',
-  }
-};
-
-var rules = {
-	'1.a': [/^.$/u,'$&',['A']],
-	'1.b': [/^..$/u,'$&',['Aa']],
-	'1.c': [/[áeéěiyíýoóúů]$/i,'$&',['Suchý','Nováková','Marko']],
-	'2.a': [/a$/i,'o',['Svoboda','Kučera']],
-	'3.a': [/[žščřsjzx]$/i,'$&i',['Beneš','Kovář','Faj','Felix','Max']],
-	'3.b': [/král$/i,'$&i',['Král']],
-	'3.c': [/(iel|cel|uel|děl|tel|žel)$/i,'$&i',['Daniel','Gabriel','Anděl','Učitel']],
-	'3.d': [/(^[šs]vec|^[kK]lec|^[pP]ec|[dt]lec)$/i,'$&i',['Švec','Klec','Tkadlec','Kadlec']],
-	'4.a': [/ď$/i,'di',['Prď']],
-	'4.b': [/ť$/i,'ti',['Prť']],
-	'4.c': [/ň$/i,'ni',['Frň']],
-	'4.d': [/[^e]c$/i,'$&i',['Zajíc', 'Princ']],
-	'5.a': [/[bdfmpqt]$/i,'$&e',['Dub','Kotvald']],
-	'5.b': [/[aeiouyáéíóúůý]r$/i,'$&e',['Fišer','Kocour']],
-	'5.c': [/n$/i,'$&e',['Zeman','Urban','Křen']],
-	'5.d': [/[^e]l$/i,'$&e',['Pospíšil','Doležal','Navrátil','Michal']],
-	'5.e': [/v$/i,'$&e',['Václav','Gustav','Kov']],
-	'6.a': [/^[^aeiouyáéíóúůýě]*[eě]k$/i,'$&u',['Řek','Šrek','Věk']],
-	'6.b': [/[^ěe]k$/i,'$&u',['Novák','Bok']],
-	'6.c': [/g$/i,'$&u',['Bog']],
-	'6.d': [/ch$/i,'$&u',['Čech','Duch']],
-	'6.e': [/[^c]h$/i,'$&u',['Hloh','Blah']],
-	'7.a': [/ek$/i,'ku',['Kožíšek','Marek','Hájek','Dědek']],
-	'8.a': [/děk$/i,'ďku',['Mladěk']],
-	'8.b': [/těk$/i,'ťku',['Vojtěk','Frtěk']],
-	'8.c': [/něk$/i,'ňku',['Vaněk','Daněk','Puněk']],
-	'9.a': [/ec$/i,'če',['Němec','Moravec','Samec','Srnec']],
-	'10.a': [/([^aeiouyáéíóúůýě])r$/i,'$1ře',['Petr','Kapr','Vintr','Hamr','Vichr']],
-	'11.a': [/([bdfghkmnprstvz])el$/i,'$1le',['Karel','Pavel','Havel','Vesel']],
+// Only English translations (Czech is natively in HTML, rules, and rules_major)
+var en = {
+	lead: "A simple guide to proper Czech vocative greetings",
+	placeholder: "Enter a Czech surname here",
+	salutation_intro: "Recommended Czech greeting:",
+	dear_male_trans: "(Formal masculine: Dear Mr. Surname)",
+	dear_female_trans: "(Formal feminine: Dear Ms. Surname)",
+	rule_label: "Rule",
+	empty_input: "Please enter a surname to address.",
+	not_found: "No matching vocative rule found for this surname.",
+	rules_heading: "Vocative Case Rules",
+	usage_heading: "Usage & Terms",
+	usage_body: "For personal use only. We are not liable for any grammatical errors.",
+	authors_heading: "Authors",
+	author_medova: "Lucie Medová (grammar rules)",
+	author_vicianova: "Klára Viciánová (grammar rules)",
+	author_vician: "Martin Vicián (web, technology)",
+	contact_heading: "Contact",
+	contact_body: "If you found an error or want to use this tool commercially, feel free to contact us at:",
+	gitlab_link: "Source code available on GitLab",
+	rules_major: {
+		"1": "No change (identical to nominative)",
+		"2": "Change final letter to -O",
+		"3": "Add ending -I (soft consonants)",
+		"4": "Add ending -I with softening of preceding consonant",
+		"5": "Add ending -E",
+		"6": "Add ending -U (hard velar consonants)",
+		"7": "Add ending -U and drop penultimate vowel (mobile -e-)",
+		"8": "Add ending -U, drop penultimate vowel, and soften consonant (d/t/n -> ď/ť/ň)",
+		"9": "Change -EC to -ČE (palatalization with dropped vowel)",
+		"10": "Change consonant + R to -ŘE",
+		"11": "Change consonant + EL to -LE (dropped vowel + vocative -e)",
+	},
+	rule_desc: {
+		'1.a': 'single-letter surnames,',
+		'1.b': 'two-letter surnames,',
+		'1.c': 'surnames ending in vowels Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O, or Y.',
+		'2.a': 'masculine surnames ending in -A (e.g. Svoboda -> Svobodo).',
+		'3.a': 'surnames ending in soft consonants Ž, Š, Č, Ř, S, J, Z, or X,',
+		'3.b': 'the surname Král (takes soft -i: Králi),',
+		'3.c': 'surnames ending in -IEL, -CEL, -UEL, -DĚL, -TEL, or -ŽEL,',
+		'3.d': 'surnames Švec, Klec, Pec, and stems ending in -DLEC or -TLEC.',
+		'4.a': 'surnames ending in Ď (ď -> di),',
+		'4.b': 'surnames ending in Ť (ť -> ti),',
+		'4.c': 'surnames ending in Ň (ň -> ni),',
+		'4.d': 'surnames ending in -C where the penultimate letter is not E.',
+		'5.a': 'surnames ending in consonants B, D, F, M, P, Q, or T,',
+		'5.b': 'surnames ending in R preceded by a vowel (e.g. Fišer -> Fišere),',
+		'5.c': 'surnames ending in N (e.g. Zeman -> Zemane, Křen -> Křene),',
+		'5.d': 'surnames ending in L (excluding -EL endings),',
+		'5.e': 'surnames ending in V (e.g. Václav -> Václave, Kov -> Kove).',
+		'6.a': 'monosyllabic surnames ending in -EK or -ĚK (root vowel preserved, e.g. Řek -> Řeku),',
+		'6.b': 'surnames ending in -K where the penultimate letter is not E or Ě,',
+		'6.c': 'surnames ending in -G,',
+		'6.d': 'surnames ending in -CH,',
+		'6.e': 'surnames ending in -H (excluding -CH).',
+		'7.a': 'multi-syllable surnames ending in -EK (vowel -e- drops, e.g. Marek -> Marku).',
+		'8.a': 'surnames ending in -DĚK (d softens to ď, e.g. Mladěk -> Mlaďku),',
+		'8.b': 'surnames ending in -TĚK (t softens to ť, e.g. Vojtěk -> Vojťku),',
+		'8.c': 'surnames ending in -NĚK (n softens to ň, e.g. Vaněk -> Vaňku).',
+		'9.a': 'surnames ending in -EC with vowel loss (e.g. Němec -> Němče, Moravec -> Moravče).',
+		'10.a': 'surnames ending in consonant + R (R palatalizes to Ř: Petr -> Petře, Kapr -> Kapře).',
+		'11.a': 'surnames ending in consonant + EL (vowel -e- drops: Karel -> Karle, Pavel -> Pavle).',
+	}
 };
 
 var currentLang = 'cs';
@@ -274,18 +250,17 @@ var currentLang = 'cs';
 function write_vocative(surname, rule) {
 	console.log("=> " + surname + " (" + rule + ")");
 	var female = surname.search(/(ová|á)$/i) !== -1;
-	var output = "<p class='lead'>" + i18n[currentLang].salutation_intro + "</p>";
-	var originalInput = $("#surname").val().trim();
-	var greeting = female ? i18n[currentLang].dear_female : i18n[currentLang].dear_male;
-	var trans = female ? i18n[currentLang].dear_female_trans : i18n[currentLang].dear_male_trans;
-	if (trans && originalInput) {
-		trans = trans.replace("Surname", originalInput);
-	}
+	var intro = (currentLang === 'en') ? en.salutation_intro : "Doporučujeme oslovení:";
+	var output = "<p class='lead'>" + intro + "</p>";
+	var greeting = female ? "Vážená paní" : "Vážený pane";
 	output += "<h1>" + greeting + " " + surname + "</h1>";
-	if (trans) {
-		output += "<p class='lead' style='font-size:18pt; opacity:0.85; margin-top:-10px;'>" + trans + "</p>";
+	if (currentLang === 'en') {
+		var originalInput = $("#surname").val().trim();
+		var note = female ? en.dear_female_trans : en.dear_male_trans;
+		output += "<p class='lead' style='font-size:18pt; opacity:0.85; margin-top:-10px;'>" + note.replace("Surname", originalInput) + "</p>";
 	}
-	output += "<p class='lead'><a href='#" + rule.replace('.', "-") + "'>(" + i18n[currentLang].rule_label + " " + rule + ")</a></p>";
+	var ruleLabel = (currentLang === 'en') ? en.rule_label : "Pravidlo";
+	output += "<p class='lead'><a href='#" + rule.replace('.', "-") + "'>(" + ruleLabel + " " + rule + ")</a></p>";
 	$("#output-row").show();
 	$("#output").html(output);
 	$("#rules li").removeClass("rule-highlight");
@@ -297,8 +272,9 @@ function vocative() {
 	console.log("Computing vocative for: ", surname);
 
 	if (!surname) {
+		var emptyMsg = (currentLang === 'en') ? en.empty_input : "Zadejte prosím příjmení k oslovení.";
 		$("#output-row").show();
-		$("#output").html("<p class='lead' style='font-size:22pt;'>" + i18n[currentLang].empty_input + "</p>");
+		$("#output").html("<p class='lead' style='font-size:22pt;'>" + emptyMsg + "</p>");
 		$("#rules li").removeClass("rule-highlight");
 		return;
 	}
@@ -311,8 +287,9 @@ function vocative() {
 		}
 	}
 	console.log("Rule not found!");
+	var notFoundMsg = (currentLang === 'en') ? en.not_found : "Pro zadané příjmení nebylo nalezeno vhodné pravidlo.";
 	$("#output-row").show();
-	$("#output").html("<p class='lead' style='font-size:22pt;'>" + i18n[currentLang].not_found + "</p>");
+	$("#output").html("<p class='lead' style='font-size:22pt;'>" + notFoundMsg + "</p>");
 	$("#rules li").removeClass("rule-highlight");
 }
 
@@ -326,9 +303,10 @@ function print_rules() {
 			if (last_major != "0") {
 				output += "</ul></li>";
 			}
-			output += '<li id="' + major + '" style="margin-top:10px;"><strong>' + major + '. ' + rules_major[currentLang][major] + ':</strong><ul>';
+			var majorTitle = (currentLang === 'en' && en.rules_major[major]) ? en.rules_major[major] : rules_major[major];
+			output += '<li id="' + major + '" style="margin-top:10px;"><strong>' + major + '. ' + majorTitle + ':</strong><ul>';
 		}
-		var desc = rule_desc[currentLang][key] || '';
+		var desc = (currentLang === 'en' && en.rule_desc[key]) ? en.rule_desc[key] : rules[key][2];
 		output += '<li id="' + key.replace(".", "-") + '">' + minor + '. ' + desc + '</li>';
 		last_major = major;
 	}
@@ -352,16 +330,26 @@ function setLanguage(lang) {
 	$('#btn-lang-en').toggleClass('active btn-primary', lang === 'en').toggleClass('btn-default', lang !== 'en');
 
 	$('[data-i18n]').each(function() {
+		if (!$(this).data('orig-cs')) {
+			$(this).data('orig-cs', $(this).html());
+		}
 		var key = $(this).data('i18n');
-		if (i18n[lang] && i18n[lang][key]) {
-			$(this).html(i18n[lang][key]);
+		if (lang === 'en' && en[key]) {
+			$(this).html(en[key]);
+		} else if (lang === 'cs') {
+			$(this).html($(this).data('orig-cs'));
 		}
 	});
 
 	$('[data-i18n-placeholder]').each(function() {
+		if (!$(this).data('orig-cs')) {
+			$(this).data('orig-cs', $(this).attr('placeholder'));
+		}
 		var key = $(this).data('i18n-placeholder');
-		if (i18n[lang] && i18n[lang][key]) {
-			$(this).attr('placeholder', i18n[lang][key]);
+		if (lang === 'en' && en[key]) {
+			$(this).attr('placeholder', en[key]);
+		} else if (lang === 'cs') {
+			$(this).attr('placeholder', $(this).data('orig-cs'));
 		}
 	});
 
