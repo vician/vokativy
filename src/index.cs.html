@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
@@ -100,12 +100,12 @@
 
 function write_vocative(surname,rule) {
 	console.log("=> "+surname+ "("+rule+")")
-	if (surname.search(/ová$/) != -1) {
+	if (surname.search(/(ová|á)$/i) != -1) {
 		female = true
 	} else {
 		female = false
 	}
-	output = "<p class='lead'>Doporučujeme oslovení:</dev>"
+	output = "<p class='lead'>Doporučujeme oslovení:</p>"
 	output += "<h1>Vážen"
 	if (female) {
 		output += "á paní"
@@ -123,75 +123,75 @@ var rules = {
 	// name:
 	// [ regex, replace, description, [example1, example2]]
 	'1.a':
-		[/^\w$/,'$&',
+		[/^.$/u,'$&',
 		'jednopísmenná příjmení,',
 		['A']],
 	'1.b':
-		[/^\w\w$/,'$&',
+		[/^..$/u,'$&',
 		'dvoupísmenná příjmení,',
 		['Aa']],
 	'1.c':
-		['[á|e|é|ě|i|y|í|ý|o|ó|ú|ů]$','$&',
+		[/[áeéěiyíýoóúů]$/i,'$&',
 		'a příjmení končící na písmena Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O nebo Y.',
 		['Suchý','Nováková','Marko']],
 	'2.a':
-		[/(\w)a$/,'$1o','příjmení končící na písmeno A.',['Jana']],
+		[/a$/i,'o','příjmení končící na písmeno A.',['Jana']],
 	'3.a':
-		[/\w[ž|š|č|ř|s|j|z]$/,'$&i','příjmení končící na písmena Ž, Š, Č, Ř, S, J nebo Z',['Faj']],
+		[/[žščřsjz]$/i,'$&i','příjmení končící na písmena Ž, Š, Č, Ř, S, J nebo Z',['Faj']],
 	'4.a':
-		[/(\w)ď$/,'$1di','příjmení končící na písmena Ď,',['Prď']],
+		[/ď$/i,'di','příjmení končící na písmena Ď,',['Prď']],
 	'4.b':
-		[/(\w)ť$/,'$1ti','příjmení končící na písmena Ť,',['Prť']],
+		[/ť$/i,'ti','příjmení končící na písmena Ť,',['Prť']],
 	'4.c':
-		[/(\w)ň$/,'$1ni','a příjmení končící na písmena Ň.',['Frň']],
+		[/ň$/i,'ni','a příjmení končící na písmena Ň.',['Frň']],
 	'4.d':
-		[/\w[^e]c$/,'$1?i','příjmení končící na písmeno C, ale předposlední není E.',['']],
+		[/[^e]c$/i,'$&i','příjmení končící na písmeno C, ale předposlední není E.',['Zajíc', 'Princ']],
 	'5.a':
-		[/\w[b|d|f|m|p|q|r|t]$/,'$&e','příjmení končící na písmena B, D, F, M, P, Q, R nebo T,',['Dub']],
+		[/[bdfmpqrt]$/i,'$&e','příjmení končící na písmena B, D, F, M, P, Q, R nebo T,',['Dub']],
 	'5.b':
-		[/\w[^ě]n$/,'$&e','příjmení končící na písmeno N, ale předposlední není Ě,',['Bon']],
+		[/[^ě]n$/i,'$&e','příjmení končící na písmeno N, ale předposlední není Ě,',['Bon']],
 	'5.c':
-		[/\w[^ě|e]l$/,'$&e','příjmení končící na písmeno L, ale předposlední není E nebo Ě,',['Bol']],
+		[/[^ěe]l$/i,'$&e','příjmení končící na písmeno L, ale předposlední není E nebo Ě,',['Bol']],
 	'5.d':
-		[/\w[^c]h$/,'$&e','příjmení končící na písmeno H, ale předposlední není C,',['Hloh']],
+		[/[^c]h$/i,'$&e','příjmení končící na písmeno H, ale předposlední není C,',['Hloh']],
 	'5.e':
-		[/\w[^a]v$/,'$&e','a příjmení končící na písmeno V, ale předposlední není A.',['Kov']],
+		[/[^a]v$/i,'$&e','a příjmení končící na písmeno V, ale předposlední není A.',['Kov']],
 	'6.a':
-		[/\w[^ě|e]k$/,'$&u','příjmení končící na písmeno K, ale předposlední není E nebo Ě,',['Bok']],
+		[/[^ěe]k$/i,'$&u','příjmení končící na písmeno K, ale předposlední není E nebo Ě,',['Bok']],
 	'6.b':
-		[/\wg$/,'$&u','příjmení končící na písmeno G,',['Bog']],
+		[/g$/i,'$&u','příjmení končící na písmeno G,',['Bog']],
 	'6.c':
-		[/\wch$/,'$&u','a příjmení končící na písmeno CH.',['Duch']],
+		[/ch$/i,'$&u','a příjmení končící na písmeno CH.',['Duch']],
 	'7.a':
-		[/ek$/,'ku','příjmení končící na písmena EK.',['Kožíšek']],
+		[/ek$/i,'ku','příjmení končící na písmena EK.',['Kožíšek']],
 	'8.a':
-		[/děk$/,'ďku','příjmení končící na písmena DĚK,',['Dědek']],
+		[/děk$/i,'ďku','příjmení končící na písmena DĚK,',['Dědek']],
 	'8.b':
-		[/těk$/,'ťku','příjmení končící na písmena TĚK,',['Frtěk']],
+		[/těk$/i,'ťku','příjmení končící na písmena TĚK,',['Frtěk']],
 	'8.c':
-		[/něk$/,'ňku','a příjmení končící na písmena NĚK',['Puněk']],
+		[/něk$/i,'ňku','a příjmení končící na písmena NĚK',['Puněk']],
 	'9.a':
-		[/ec$/,'če','příjmení končící na písmena EC.',['Němec']],
+		[/ec$/i,'če','příjmení končící na písmena EC.',['Němec']],
 }
 
 var rules_major = {
 	"1": "Beze změny",
 	"2": "Změna posledního písmene na písmeno O",
 	"3": "Přidání písmene I",
-	"4": "Přidání písmene I a změkčení předposlendího písmene",
+	"4": "Přidání písmene I a změkčení předposledního písmene",
 	"5": "Přidání písmene E",
 	"6": "Přidání písmene U",
 	"7": "Přidání písmene U a odebrání předposledního písmene",
 	"8": "Přidání písmene U, odebrání předposledního písmene a změkčení předpředposledního písmene",
-	"9": "Přidání písmene E, změkčení poslendího a odebrání předposledního",
+	"9": "Přidání písmene E, změkčení posledního a odebrání předposledního",
 }
 
 function vocatives() {
-	surnames = $("#surname").val().normalize();
+	surnames = $("#surname").val().trim().normalize();
 }
 
 function vocative() {
-	surname = $("#surname").val().normalize();
+	surname = $("#surname").val().trim().normalize();
 	console.log(surname.length)
 	//console.log(surname.normalize().length)
 	//surname = "Voříšek".normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -204,7 +204,9 @@ function vocative() {
 			return;
 		}
 	}
-	console.log("Rule not found!")
+	console.log("Rule not found!");
+	$("#output-row").show();
+	$("#output").html("<p class='lead'>Pro zadané příjmení nebylo nalezeno vhodné pravidlo.</p>");
 }
 
 function print_rules() {
