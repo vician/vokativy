@@ -14,9 +14,9 @@
 <div class="container-full">
       <div class="row">
         <div class="col-xs-12 text-right" style="padding: 15px 25px 0 0;">
-          <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-primary" id="btn-lang-cs" onclick="setLanguage('cs');">Čeština</button>
-            <button type="button" class="btn btn-default" id="btn-lang-en" onclick="setLanguage('en');">English</button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-lang" id="btn-lang-cs" onclick="setLanguage('cs');">Čeština</button>
+            <button type="button" class="btn btn-lang" id="btn-lang-en" onclick="setLanguage('en');">English</button>
           </div>
         </div>
       </div>
@@ -326,8 +326,8 @@ function setLanguage(lang) {
 	window.location.hash = lang;
 	document.documentElement.lang = lang;
 
-	$('#btn-lang-cs').toggleClass('active btn-primary', lang === 'cs').toggleClass('btn-default', lang !== 'cs');
-	$('#btn-lang-en').toggleClass('active btn-primary', lang === 'en').toggleClass('btn-default', lang !== 'en');
+	$('#btn-lang-cs').toggleClass('active', lang === 'cs');
+	$('#btn-lang-en').toggleClass('active', lang === 'en');
 
 	$('[data-i18n]').each(function() {
 		if (!$(this).data('orig-cs')) {

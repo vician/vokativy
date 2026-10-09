@@ -63,4 +63,39 @@ a {
   padding: 2px 5px;
 }
 
+/* OK submit button — restore rounding that input-group-btn removes */
+#submit.btn {
+  border-radius: 0 6px 6px 0;
+  background-color: #5533aa;
+  border-color: #5533aa;
+  color: #fff;
+}
+#submit.btn:hover,
+#submit.btn:focus {
+  background-color: #6644cc;
+  border-color: #6644cc;
+}
+
+/* Language switcher — ghost style against dark header */
+.btn-group .btn-lang {
+  background: transparent;
+  border: 1px solid rgba(221, 204, 238, 0.5);
+  color: rgba(221, 204, 238, 0.75);
+  border-radius: 4px !important;
+  margin-left: 4px;
+  font-size: 13px;
+  padding: 3px 10px;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-group .btn-lang:hover {
+  background: rgba(221, 204, 238, 0.15);
+  color: #fff;
+}
+.btn-group .btn-lang.active {
+  background: rgba(221, 204, 238, 0.25);
+  border-color: #DDCCEE;
+  color: #fff;
+  font-weight: 600;
+}
+
 
