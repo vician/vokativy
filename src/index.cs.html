@@ -135,43 +135,57 @@ var rules = {
 		'a příjmení končící na písmena Á, E, É, Ě, I, Í, Ý, Ó, Ú, Ů, O nebo Y.',
 		['Suchý','Nováková','Marko']],
 	'2.a':
-		[/a$/i,'o','příjmení končící na písmeno A.',['Jana']],
+		[/a$/i,'o','příjmení končící na písmeno A.',['Svoboda','Jana']],
 	'3.a':
-		[/[žščřsjz]$/i,'$&i','příjmení končící na písmena Ž, Š, Č, Ř, S, J nebo Z',['Faj']],
+		[/[žščřsjzx]$/i,'$&i','příjmení končící na písmena Ž, Š, Č, Ř, S, J, Z nebo X,',['Beneš','Kovář','Faj','Felix','Max']],
+	'3.b':
+		[/král$/i,'$&i','příjmení Král,',['Král']],
+	'3.c':
+		[/(iel|cel|uel|děl|tel|žel)$/i,'$&i','příjmení končící na IEL, CEL, UEL, DĚL, TEL nebo ŽEL,',['Daniel','Gabriel','Anděl','Učitel']],
+	'3.d':
+		[/(^[^aeiouyáéíóúůýě]*ec|[dt]lec)$/i,'$&i','a jednoslabičná příjmení na EC nebo končící na DLEC a TLEC.',['Švec','Klec','Tkadlec','Kadlec']],
 	'4.a':
 		[/ď$/i,'di','příjmení končící na písmena Ď,',['Prď']],
 	'4.b':
 		[/ť$/i,'ti','příjmení končící na písmena Ť,',['Prť']],
 	'4.c':
-		[/ň$/i,'ni','a příjmení končící na písmena Ň.',['Frň']],
+		[/ň$/i,'ni','příjmení končící na písmena Ň,',['Frň']],
 	'4.d':
-		[/[^e]c$/i,'$&i','příjmení končící na písmeno C, ale předposlední není E.',['Zajíc', 'Princ']],
+		[/[^e]c$/i,'$&i','a příjmení končící na písmeno C, ale předposlední není E.',['Zajíc', 'Princ']],
 	'5.a':
-		[/[bdfmpqrt]$/i,'$&e','příjmení končící na písmena B, D, F, M, P, Q, R nebo T,',['Dub']],
+		[/[bdfmpqt]$/i,'$&e','příjmení končící na písmena B, D, F, M, P, Q nebo T,',['Dub','Kotvald']],
 	'5.b':
-		[/[^ě]n$/i,'$&e','příjmení končící na písmeno N, ale předposlední není Ě,',['Bon']],
+		[/[aeiouyáéíóúůý]r$/i,'$&e','příjmení končící na písmeno R po samohlásce,',['Fišer','Kocour']],
 	'5.c':
-		[/[^ěe]l$/i,'$&e','příjmení končící na písmeno L, ale předposlední není E nebo Ě,',['Bol']],
+		[/n$/i,'$&e','příjmení končící na písmeno N,',['Zeman','Urban','Křen']],
 	'5.d':
-		[/[^c]h$/i,'$&e','příjmení končící na písmeno H, ale předposlední není C,',['Hloh']],
+		[/[^e]l$/i,'$&e','příjmení končící na písmeno L (mimo koncovku EL),',['Pospíšil','Doležal','Navrátil','Michal']],
 	'5.e':
-		[/[^a]v$/i,'$&e','a příjmení končící na písmeno V, ale předposlední není A.',['Kov']],
+		[/v$/i,'$&e','a příjmení končící na písmeno V.',['Václav','Gustav','Kov']],
 	'6.a':
-		[/[^ěe]k$/i,'$&u','příjmení končící na písmeno K, ale předposlední není E nebo Ě,',['Bok']],
+		[/^[^aeiouyáéíóúůýě]*[eě]k$/i,'$&u','jednoslabičná příjmení končící na EK nebo ĚK,',['Řek','Šrek','Věk']],
 	'6.b':
-		[/g$/i,'$&u','příjmení končící na písmeno G,',['Bog']],
+		[/[^ěe]k$/i,'$&u','příjmení končící na písmeno K, ale předposlední není E nebo Ě,',['Novák','Bok']],
 	'6.c':
-		[/ch$/i,'$&u','a příjmení končící na písmeno CH.',['Duch']],
+		[/g$/i,'$&u','příjmení končící na písmeno G,',['Bog']],
+	'6.d':
+		[/ch$/i,'$&u','příjmení končící na písmena CH,',['Čech','Duch']],
+	'6.e':
+		[/[^c]h$/i,'$&u','a příjmení končící na písmeno H (ale ne CH).',['Hloh','Blah']],
 	'7.a':
-		[/ek$/i,'ku','příjmení končící na písmena EK.',['Kožíšek']],
+		[/ek$/i,'ku','příjmení končící na písmena EK.',['Kožíšek','Marek','Hájek','Dědek']],
 	'8.a':
-		[/děk$/i,'ďku','příjmení končící na písmena DĚK,',['Dědek']],
+		[/děk$/i,'ďku','příjmení končící na písmena DĚK,',['Mladěk']],
 	'8.b':
-		[/těk$/i,'ťku','příjmení končící na písmena TĚK,',['Frtěk']],
+		[/těk$/i,'ťku','příjmení končící na písmena TĚK,',['Vojtěk','Frtěk']],
 	'8.c':
-		[/něk$/i,'ňku','a příjmení končící na písmena NĚK',['Puněk']],
+		[/něk$/i,'ňku','a příjmení končící na písmena NĚK.',['Vaněk','Daněk','Puněk']],
 	'9.a':
-		[/ec$/i,'če','příjmení končící na písmena EC.',['Němec']],
+		[/ec$/i,'če','příjmení končící na písmena EC.',['Němec','Moravec','Samec']],
+	'10.a':
+		[/([bcdfgkpstvz])r$/i,'$1ře','příjmení končící na souhlásku a R (změna R na Ř a přidání E).',['Petr','Kapr','Vintr']],
+	'11.a':
+		[/([bdfghkmnprstvz])el$/i,'$1le','příjmení končící na souhlásku a EL (změna EL na LE).',['Karel','Pavel','Havel','Vesel']],
 }
 
 var rules_major = {
@@ -184,6 +198,8 @@ var rules_major = {
 	"7": "Přidání písmene U a odebrání předposledního písmene",
 	"8": "Přidání písmene U, odebrání předposledního písmene a změkčení předpředposledního písmene",
 	"9": "Přidání písmene E, změkčení posledního a odebrání předposledního",
+	"10": "Přidání písmene E a změna R na Ř",
+	"11": "Změna koncovky EL na LE",
 }
 
 function vocatives() {
